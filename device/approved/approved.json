@@ -1,0 +1,5 @@
+{
+  "note": "이 파일은 generate.js가 절대 덮어쓰지 않습니다. 사람이 output/candidates.json을 검토한 뒤, 사이트에 실제로 쓸 문장만 골라 이 파일에 옮겨 적으세요. 사이트 빌드는 이 파일(approved.json)만 읽어야 합니다.",
+  "review_needed": true,
+  "approved": []
+}

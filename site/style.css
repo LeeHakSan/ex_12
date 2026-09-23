@@ -1,0 +1,460 @@
+:root {
+  --bg: #fdfcfb;
+  --surface: #faf6f5;
+  --ink: #18171c;
+  --muted: #6c6a70;
+  --accent: #b3232f;
+  --accent-soft: #f8e0e0;
+  --border: #e8e5df;
+  --nav-h: 4rem;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(rgba(24, 23, 28, 0.07) 1px, transparent 1px);
+  background-size: 26px 26px;
+  color: var(--ink);
+  font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, sans-serif;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); }
+
+/* ---------- 상단 고정 내비게이션 ---------- */
+
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(1.25rem, 4vw, 3rem);
+  z-index: 100;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.nav-bar.is-solid {
+  background: rgba(250, 243, 242, 0.86);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom-color: var(--border);
+}
+
+.nav-name {
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.nav-bar.is-solid .nav-name { opacity: 1; transform: translateY(0); }
+
+.nav-links {
+  display: flex;
+  gap: clamp(1rem, 3vw, 2rem);
+  font-size: 0.92rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--muted);
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+}
+
+.nav-links a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+section, .hero { scroll-margin-top: var(--nav-h); }
+
+/* ---------- 히어로 (명함형) ---------- */
+
+.hero {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--nav-h) + 2rem) 1.5rem 3rem;
+}
+
+.hero-card {
+  width: 100%;
+  max-width: 46rem;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.hero-greeting {
+  display: block;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.hero-card h1 {
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  margin: 0 0 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+.hero-card h1 .accent-dot { color: var(--accent); }
+
+.tagline {
+  font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+  color: var(--muted);
+  max-width: 34em;
+  margin: 0 auto 2.75rem;
+  line-height: 1.6;
+}
+
+.hero-links {
+  display: flex;
+  justify-content: center;
+  gap: clamp(1.25rem, 4vw, 2.5rem);
+  flex-wrap: wrap;
+  font-size: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.hero-links a {
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.hero-links a:hover { color: var(--accent); }
+
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 1.75rem;
+  transform: translateX(-50%);
+  width: 22px; height: 34px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  opacity: 0.8;
+}
+
+.scroll-cue::before {
+  content: "";
+  position: absolute;
+  top: 6px; left: 50%;
+  width: 4px; height: 8px;
+  margin-left: -2px;
+  background: var(--muted);
+  border-radius: 2px;
+  animation: cue-drop 1.8s ease-in-out infinite;
+}
+
+@keyframes cue-drop {
+  0% { transform: translateY(0); opacity: 1; }
+  70% { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(10px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue::before { animation: none; }
+}
+
+/* ---------- 공통 섹션 레이아웃 ---------- */
+
+main { max-width: 78rem; margin: 0 auto; padding: 0 clamp(1.5rem, 6vw, 4rem); }
+
+section { padding: clamp(4rem, 9vw, 7rem) 0; border-bottom: 1px solid var(--border); }
+section:last-of-type { border-bottom: none; }
+
+section h2 {
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 2rem;
+  text-align: center;
+}
+
+.section-num {
+  display: inline-block;
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: 0;
+  margin-right: 0.6em;
+  opacity: 0.7;
+}
+
+.section-num::after {
+  content: "/";
+  margin-left: 0.4em;
+  color: var(--border);
+}
+
+/* 이야기 섹션은 가독성을 위해 본문 폭을 좁게 유지 */
+.story-body {
+  max-width: 38em;
+  margin: 0 auto;
+}
+
+.story-body p {
+  margin: 0 0 1.5rem;
+  font-size: 1.08rem;
+}
+
+.story-body p:first-of-type {
+  font-size: 1.2rem;
+}
+
+.story-body time {
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* 스크롤 등장 애니메이션 대상 */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal.in-view { transition: none; transform: none; opacity: 1; }
+}
+
+/* ---------- 숫자 섹션 (스크롤 고정형) ---------- */
+
+.numbers-pin {
+  position: relative;
+}
+
+.numbers-pin.js-pin { height: 600vh; }
+
+.numbers-sticky {
+  position: static;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.numbers-pin.js-pin .numbers-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  padding: 2rem 0;
+}
+
+.number-stage {
+  position: relative;
+  width: 100%;
+  max-width: 44rem;
+  margin: 0 auto;
+  height: min(58vh, 420px);
+}
+
+.number-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(24px) scale(0.96);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  pointer-events: none;
+}
+
+.number-slide.is-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.number-slide .value {
+  font-size: clamp(3.5rem, 11vw, 7.5rem);
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.number-slide .value.value--pair {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(0.5rem, 2vw, 1rem);
+  font-size: clamp(2.1rem, 6vw, 3.75rem);
+}
+
+.number-slide .value--pair .value-divider {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.number-slide .label {
+  font-size: clamp(1.05rem, 2.4vw, 1.4rem);
+  margin-top: 1.4rem;
+  max-width: 32em;
+}
+
+.number-slide .source { font-size: 0.9rem; color: var(--muted); margin-top: 0.85rem; }
+
+.stage-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 2.5rem;
+}
+
+.stage-dots span {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.stage-dots span.is-active {
+  background: var(--accent);
+  transform: scale(1.35);
+}
+
+/* JS 없이 / 모바일 / 동작 최소화: 전부 세로로 나열해서 보여줌 */
+.numbers-pin:not(.js-pin) .number-stage {
+  position: static;
+  height: auto;
+}
+
+.numbers-pin:not(.js-pin) .number-slide {
+  position: static;
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  margin-bottom: 3.5rem;
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.numbers-pin:not(.js-pin) .number-slide:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.numbers-pin:not(.js-pin) .stage-dots { display: none; }
+
+/* ---------- 대표작 / 이력서 ---------- */
+
+.work-grid, .resume-links {
+  max-width: 46rem;
+  margin: 0 auto;
+}
+
+.work-card {
+  padding: 1.75rem 0 0;
+  margin-bottom: 2rem;
+  border-top: 2px solid var(--accent);
+}
+
+.work-card h3 { margin: 0 0 0.5rem; }
+.work-links { padding-left: 1.1rem; margin: 0.75rem 0 0; }
+.work-links li { margin-bottom: 0.35rem; }
+
+.work-card--pending { border-top-color: var(--border); }
+
+.pending {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.resume-links {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.resume-links a {
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 600;
+  padding-bottom: 3px;
+  border-bottom: 2px solid var(--border);
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+.resume-links a:hover { border-color: var(--accent); color: var(--accent); }
+
+.contact { margin-top: 2rem; text-align: center; color: var(--muted); }
+
+.site-footer {
+  text-align: center;
+  padding: 2.5rem 1.5rem 3rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* ---------- 문서 페이지 (이력서/자기소개서/경력기술서) ---------- */
+.doc-page main { max-width: 46rem; padding-top: calc(var(--nav-h) + 2rem); padding-bottom: 4rem; }
+.doc-back { display: inline-block; margin-bottom: 2rem; color: var(--muted); text-decoration: none; font-size: 0.9rem; }
+.doc-back:hover { color: var(--accent); }
+.doc-page h1 { font-size: 1.7rem; margin-bottom: 0.5rem; }
+.doc-page h2 { font-size: 1.1rem; margin: 2rem 0 0.75rem; color: var(--accent); }
+.doc-page table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 0.92rem; }
+.doc-page th, .doc-page td { border: 1px solid var(--border); padding: 0.6rem 0.75rem; text-align: left; vertical-align: top; }
+.doc-page th { background: var(--bg); }
+.doc-page ul, .doc-page ol { padding-left: 1.3rem; }
+.doc-page li { margin-bottom: 0.4rem; }
+.doc-page blockquote { border-left: 3px solid var(--accent); margin: 1rem 0; padding: 0.5rem 1rem; color: var(--muted); background: var(--bg); }
+.doc-entry { padding: 1.75rem 0; border-bottom: 1px solid var(--border); }
+.doc-entry:last-of-type { border-bottom: none; }
+.doc-entry h3 { margin: 0 0 0.5rem; font-size: 1.02rem; }
+.doc-entry .ability {
+  display: inline-block;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  background: var(--accent-soft);
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.85rem;
+}
+.doc-note { color: var(--muted); font-size: 0.85rem; }
+
+/* ---------- 모바일 (데스크톱을 기준으로 여기서 축소) ---------- */
+
+@media (max-width: 720px) {
+  main { padding: 0 1.25rem; }
+  .hero { padding: calc(var(--nav-h) + 1.5rem) 1rem 2.5rem; }
+  .hero-card { padding: 0 0.5rem; }
+  section { padding: 3rem 0; }
+}
+
+@media (max-width: 480px) {
+  .nav-links { gap: 0.85rem; font-size: 0.85rem; }
+}

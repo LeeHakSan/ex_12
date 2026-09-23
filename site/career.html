@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>경력기술서 — 이학산</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body class="doc-page">
+<nav class="nav-bar is-solid" id="nav-bar" data-static="true">
+  <a class="nav-name" href="index.html#top">이학산</a>
+  <div class="nav-links">
+    <a href="index.html#story">이야기</a>
+    <a href="index.html#numbers">숫자</a>
+    <a href="index.html#work">대표작</a>
+    <a href="index.html#resume">이력서</a>
+  </div>
+</nav>
+<main>
+  <a class="doc-back" href="index.html#resume">&larr; 돌아가기</a>
+  <h1>경력기술서</h1>
+  <p class="doc-note">역할·문제 유형이 서로 다른 과제/프로젝트 5건. 각 항목은 해당 능력 + 상황(S)·행동(A)·결과(R) 형식입니다.</p>
+
+  <div class="doc-entry">
+    <h3>논문 「이중진자 시뮬레이션을 이용한 암호학적 무작위성 검증」 (~2026-09-10)</h3>
+    <div class="ability">자기조절력 · 자기동기력</div>
+    <p><b>상황</b> 처음 준비하던 연구 주제(AI 반복 수정 수렴 실험)가 데이터 수집 전 단계에서 진행이 막혀, 새 주제("물리적 혼돈이 암호학적 무작위성을 만드는가")로 교체해야 했음.</p>
+    <p><b>행동</b> 이중진자 시뮬레이션을 설계해 초기 진폭 3조건 × 독립시행 20회, 총 60회를 직접 실행. 카이제곱 균등성 검정으로 무작위성을 판정하고, 가설이 지지되지 않는 결과가 나오자 이를 감추거나 유리하게 재해석하지 않고 그대로 보고. 이후 판정의 신뢰도를 스스로 의심해 대조군(완전 예측 가능한 수열, SHA-256 해시열)을 추가로 설계·비교해 검정 방법 자체의 한계까지 밝혀냄.</p>
+    <p><b>결과</b> "물리적 혼돈성 = 암호학적 무작위성"이라는 가정이 이번 실험 범위에서는 지지되지 않는다는 정직한 결론과, 검정 방법의 한계까지 포함한 논문 1편과 재현 패키지(원자료·실행 스크립트)를 완성.</p>
+  </div>
+
+  <div class="doc-entry">
+    <h3>장편소설 「그림자를 접는 법」 (2026-09-15 ~ 2026-09-18)</h3>
+    <div class="ability">자기동기력 · 자기조절력</div>
+    <p><b>상황</b> 자신의 실제 경험(고난→회복 과정)을 15장, 30,000자 이상 분량의 일관된 이야기로 구조화해야 했고, 장 수가 많아질수록 인물·시간선 설정이 서로 충돌할 위험이 있었음.</p>
+    <p><b>행동</b> 인물·관계·지명·시간선·세계 규칙 5범주로 대조표를 직접 만들어 자체 검증 스크립트로 확인. 그 과정에서 3장의 시간 순서 오류 등 설정 충돌 4건을 스스로 찾아내 수정.</p>
+    <p><b>결과</b> 공백 제거 기준 31,634자, 15장, 중복 문단 0건, 설정 충돌 0건인 원고를 완성하고, 재검증 가능한 스크립트와 결과를 함께 남김.</p>
+  </div>
+
+  <div class="doc-entry">
+    <h3>서사 문서 (자기소개 강점 지도 작성) (2026-08-11 ~ 2026-09-09)</h3>
+    <div class="ability">자기동기력 · 대인관계력</div>
+    <p><b>상황</b> 20일간의 리추얼 기록(자기 언급·동료 언급)을 전수 검토해, 근거 있는 강점 3가지로 좁혀야 했음.</p>
+    <p><b>행동</b> 반복 횟수·동료 언급을 기준으로 강점 후보 10개를 추려 3개로 확정. 이 과정에서 AI가 처음 제시한 "지어낸 고난 이야기"를 사실이 아니라는 이유로 직접 거부하고, 실제 경험(2019년 전학)으로 바꿔 넣음.</p>
+    <p><b>결과</b> 날짜와 동료 인용이 붙은 강점 지도, 자기소개서 초안을 완성해 이후 과제(장편소설, 공개 사이트)의 사실 근거 자료로 재사용됨.</p>
+  </div>
+
+  <div class="doc-entry">
+    <h3>SevMerge — IT 외주 매칭 플랫폼 (2026-05 ~ 2026-06, 약 4주)</h3>
+    <div class="ability">자기동기력</div>
+    <p><b>상황</b> Java/Spring Boot 기반 백엔드 시스템을 4주라는 정해진 기간 안에 완성해야 했음. 개인 프로젝트(백엔드 중심 풀스택)로 진행.</p>
+    <p><b>행동</b> 에스크로 결제, 실시간 채팅, AI 의뢰 작성 도우미, 소셜 로그인 등 다수의 외부 연동(Toss Payments, SolAPI, Gmail SMTP, Gemini, Google/Kakao OAuth2)을 포함한 기능을 도메인 기반 패키지 구조로 설계·구현하며 4주간 꾸준히 개발.</p>
+    <p><b>결과</b> 프로젝트를 기간 내 완성, 1,451개 커밋 기록. (<a href="https://github.com/LeeHakSan/SevMerge">github.com/LeeHakSan/SevMerge</a>)</p>
+  </div>
+
+  <div class="doc-entry">
+    <h3>flappy-bird — 독학 게임 프로젝트</h3>
+    <div class="ability">자기동기력</div>
+    <p><b>상황</b> 배워 본 적 없는 게임 프로그래밍을 혼자 힘으로 시도.</p>
+    <p><b>행동</b> 온라인 강의·책으로 기초를 독학하고, 발생하는 오류를 혼자 힘으로 하나씩 해결하며 완성까지 밀어붙임.</p>
+    <p><b>결과</b> 첫 게임을 완성해 공개. 이 경험이 이후 SevMerge 등 더 규모 있는 프로젝트에 도전하는 밑거름이 됨. (<a href="https://github.com/LeeHakSan/flappy-bird">github.com/LeeHakSan/flappy-bird</a>)</p>
+  </div>
+</main>
+<script src="scroll.js" defer></script>
+</body>
+</html>

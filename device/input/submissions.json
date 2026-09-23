@@ -1,0 +1,49 @@
+{
+  "items": [
+    {
+      "id": "T09",
+      "title": "서사 문서 (1인칭 사실 기록)",
+      "status": "완료",
+      "date": "2026-09-09",
+      "detail": "v6",
+      "source": "C:\\Users\\user\\Downloads\\ex_85\\서사문서_이학산_v6.docx"
+    },
+    {
+      "id": "T10",
+      "title": "논문 — 이중진자 무작위성 연구",
+      "status": "완료",
+      "date": "2026-09-10",
+      "detail": "가설/선행연구/실험설계및실행/결과해석 4편 + 재현패키지",
+      "source": "C:\\Users\\user\\Downloads\\ex_10\\무작위성_연구_이학산.docx"
+    },
+    {
+      "id": "T11",
+      "title": "장편 소설 (자전적 소설, 15장)",
+      "status": "완료",
+      "date": "2026-09-18",
+      "detail": "본문 31,634자 (공백 제거, NFC 기준)",
+      "source": "C:\\Users\\user\\Downloads\\ex_11\\원고_이학산.md"
+    },
+    {
+      "id": "SevMerge",
+      "title": "SevMerge — IT 외주 매칭 플랫폼 (개인/팀 프로젝트)",
+      "status": "완료",
+      "date_range": "2026-05 ~ 2026-06",
+      "detail": "약 4주, 커밋 1,451개, Spring Boot 백엔드 중심 풀스택",
+      "source": "https://github.com/LeeHakSan/SevMerge"
+    },
+    {
+      "id": "flappy-bird",
+      "title": "flappy-bird (독학으로 만든 첫 게임)",
+      "status": "완료",
+      "detail": "독학, 첫 완성 프로젝트",
+      "source": "서사문서 포트폴리오 항목"
+    },
+    {
+      "id": "BR-A",
+      "title": "마지막 A — 자기소개 사이트 + 재생성 장치",
+      "status": "진행중",
+      "date": "2026-09-22"
+    }
+  ]
+}
