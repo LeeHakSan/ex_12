@@ -379,6 +379,56 @@ section h2 {
 }
 
 .work-card h3 { margin: 0 0 0.5rem; }
+
+.work-figure {
+  margin: 1.25rem 0;
+}
+
+.work-figure img {
+  display: block;
+  width: 100%;
+  max-width: 26rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.work-figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  max-width: 26rem;
+}
+
+.work-summary {
+  margin: 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.work-summary > div {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 0.75rem;
+  align-items: baseline;
+}
+
+.work-summary dt {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.work-summary dd {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
 .work-links { padding-left: 1.1rem; margin: 0.75rem 0 0; }
 .work-links li { margin-bottom: 0.35rem; }
 
