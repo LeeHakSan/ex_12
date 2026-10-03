@@ -1,0 +1,458 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-03T06:11:40.501Z",
+  "title": "Design System: 이학산 포트폴리오 · 논문 체험 앱",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Cool Paper",
+        "canonical": "oklch(97.1% 0.004 236)",
+        "hex": "#f3f6f8",
+        "tonalRamp": [
+          "oklch(15.0% 0.004 236)",
+          "oklch(25.0% 0.004 236)",
+          "oklch(35.0% 0.004 236)",
+          "oklch(45.0% 0.004 236)",
+          "oklch(58.0% 0.004 236)",
+          "oklch(72.0% 0.004 236)",
+          "oklch(85.0% 0.003 236)",
+          "oklch(95.0% 0.001 236)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Sign White",
+        "canonical": "oklch(100.0% 0.000 90)",
+        "hex": "#ffffff",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 90)",
+          "oklch(25.0% 0.000 90)",
+          "oklch(35.0% 0.000 90)",
+          "oklch(45.0% 0.000 90)",
+          "oklch(58.0% 0.000 90)",
+          "oklch(72.0% 0.000 90)",
+          "oklch(85.0% 0.000 90)",
+          "oklch(95.0% 0.000 90)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Platform Ink",
+        "canonical": "oklch(21.7% 0.037 259)",
+        "hex": "#0f1a2b",
+        "tonalRamp": [
+          "oklch(15.0% 0.037 259)",
+          "oklch(25.0% 0.037 259)",
+          "oklch(35.0% 0.037 259)",
+          "oklch(45.0% 0.037 259)",
+          "oklch(58.0% 0.037 259)",
+          "oklch(72.0% 0.037 259)",
+          "oklch(85.0% 0.026 259)",
+          "oklch(95.0% 0.013 259)"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Body Ink",
+        "canonical": "oklch(34.6% 0.047 258)",
+        "hex": "#2a3a52",
+        "tonalRamp": [
+          "oklch(15.0% 0.047 258)",
+          "oklch(25.0% 0.047 258)",
+          "oklch(35.0% 0.047 258)",
+          "oklch(45.0% 0.047 258)",
+          "oklch(58.0% 0.047 258)",
+          "oklch(72.0% 0.047 258)",
+          "oklch(85.0% 0.033 258)",
+          "oklch(95.0% 0.017 258)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Slate",
+        "canonical": "oklch(48.6% 0.038 260)",
+        "hex": "#536075",
+        "tonalRamp": [
+          "oklch(15.0% 0.038 260)",
+          "oklch(25.0% 0.038 260)",
+          "oklch(35.0% 0.038 260)",
+          "oklch(45.0% 0.038 260)",
+          "oklch(58.0% 0.038 260)",
+          "oklch(72.0% 0.038 260)",
+          "oklch(85.0% 0.026 260)",
+          "oklch(95.0% 0.013 260)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(89.0% 0.016 248)",
+        "hex": "#d3dce5",
+        "tonalRamp": [
+          "oklch(15.0% 0.016 248)",
+          "oklch(25.0% 0.016 248)",
+          "oklch(35.0% 0.016 248)",
+          "oklch(45.0% 0.016 248)",
+          "oklch(58.0% 0.016 248)",
+          "oklch(72.0% 0.016 248)",
+          "oklch(85.0% 0.011 248)",
+          "oklch(95.0% 0.006 248)"
+        ]
+      },
+      "rule-strong": {
+        "role": "neutral",
+        "displayName": "Strong Rule",
+        "canonical": "oklch(75.0% 0.032 250)",
+        "hex": "#9fb0c2",
+        "tonalRamp": [
+          "oklch(15.0% 0.032 250)",
+          "oklch(25.0% 0.032 250)",
+          "oklch(35.0% 0.032 250)",
+          "oklch(45.0% 0.032 250)",
+          "oklch(58.0% 0.032 250)",
+          "oklch(72.0% 0.032 250)",
+          "oklch(85.0% 0.023 250)",
+          "oklch(95.0% 0.011 250)"
+        ]
+      },
+      "story": {
+        "role": "primary",
+        "displayName": "Story Line Green",
+        "canonical": "oklch(57.1% 0.144 153)",
+        "hex": "#0a8f4d",
+        "tonalRamp": [
+          "oklch(15.0% 0.144 153)",
+          "oklch(25.0% 0.144 153)",
+          "oklch(35.0% 0.144 153)",
+          "oklch(45.0% 0.144 153)",
+          "oklch(58.0% 0.144 153)",
+          "oklch(72.0% 0.144 153)",
+          "oklch(85.0% 0.101 153)",
+          "oklch(95.0% 0.050 153)"
+        ]
+      },
+      "story-ink": {
+        "role": "primary",
+        "displayName": "Story Text Green",
+        "canonical": "oklch(48.8% 0.122 153)",
+        "hex": "#08733d",
+        "tonalRamp": [
+          "oklch(15.0% 0.122 153)",
+          "oklch(25.0% 0.122 153)",
+          "oklch(35.0% 0.122 153)",
+          "oklch(45.0% 0.122 153)",
+          "oklch(58.0% 0.122 153)",
+          "oklch(72.0% 0.122 153)",
+          "oklch(85.0% 0.086 153)",
+          "oklch(95.0% 0.043 153)"
+        ]
+      },
+      "exp": {
+        "role": "secondary",
+        "displayName": "Experiment Line Blue",
+        "canonical": "oklch(50.2% 0.164 259)",
+        "hex": "#1f5fbf",
+        "tonalRamp": [
+          "oklch(15.0% 0.164 259)",
+          "oklch(25.0% 0.164 259)",
+          "oklch(35.0% 0.164 259)",
+          "oklch(45.0% 0.164 259)",
+          "oklch(58.0% 0.164 259)",
+          "oklch(72.0% 0.164 259)",
+          "oklch(85.0% 0.115 259)",
+          "oklch(95.0% 0.057 259)"
+        ]
+      },
+      "out": {
+        "role": "tertiary",
+        "displayName": "Submission Line Orange",
+        "canonical": "oklch(65.6% 0.170 49)",
+        "hex": "#e06a12",
+        "tonalRamp": [
+          "oklch(15.0% 0.170 49)",
+          "oklch(25.0% 0.170 49)",
+          "oklch(35.0% 0.170 49)",
+          "oklch(45.0% 0.170 49)",
+          "oklch(58.0% 0.170 49)",
+          "oklch(72.0% 0.170 49)",
+          "oklch(85.0% 0.119 49)",
+          "oklch(95.0% 0.060 49)"
+        ]
+      },
+      "out-hover": {
+        "role": "tertiary",
+        "displayName": "Orange Pressed Light",
+        "canonical": "oklch(70.5% 0.171 52)",
+        "hex": "#f07b22",
+        "tonalRamp": [
+          "oklch(15.0% 0.171 52)",
+          "oklch(25.0% 0.171 52)",
+          "oklch(35.0% 0.171 52)",
+          "oklch(45.0% 0.171 52)",
+          "oklch(58.0% 0.171 52)",
+          "oklch(72.0% 0.171 52)",
+          "oklch(85.0% 0.119 52)",
+          "oklch(95.0% 0.060 52)"
+        ]
+      },
+      "out-ink": {
+        "role": "tertiary",
+        "displayName": "Orange Text",
+        "canonical": "oklch(55.4% 0.146 48)",
+        "hex": "#b4520a",
+        "tonalRamp": [
+          "oklch(15.0% 0.146 48)",
+          "oklch(25.0% 0.146 48)",
+          "oklch(35.0% 0.146 48)",
+          "oklch(45.0% 0.146 48)",
+          "oklch(58.0% 0.146 48)",
+          "oklch(72.0% 0.146 48)",
+          "oklch(85.0% 0.102 48)",
+          "oklch(95.0% 0.051 48)"
+        ]
+      },
+      "sign": {
+        "role": "neutral",
+        "displayName": "Sign Panel Navy",
+        "canonical": "oklch(27.1% 0.064 255)",
+        "hex": "#0f2745",
+        "tonalRamp": [
+          "oklch(15.0% 0.064 255)",
+          "oklch(25.0% 0.064 255)",
+          "oklch(35.0% 0.064 255)",
+          "oklch(45.0% 0.064 255)",
+          "oklch(58.0% 0.064 255)",
+          "oklch(72.0% 0.064 255)",
+          "oklch(85.0% 0.044 255)",
+          "oklch(95.0% 0.022 255)"
+        ]
+      },
+      "sign-muted": {
+        "role": "neutral",
+        "displayName": "Sign Muted Blue",
+        "canonical": "oklch(82.1% 0.030 255)",
+        "hex": "#b8c6d8",
+        "tonalRamp": [
+          "oklch(15.0% 0.030 255)",
+          "oklch(25.0% 0.030 255)",
+          "oklch(35.0% 0.030 255)",
+          "oklch(45.0% 0.030 255)",
+          "oklch(58.0% 0.030 255)",
+          "oklch(72.0% 0.030 255)",
+          "oklch(85.0% 0.021 255)",
+          "oklch(95.0% 0.010 255)"
+        ]
+      },
+      "sha": {
+        "role": "neutral",
+        "displayName": "Reference Slate",
+        "canonical": "oklch(52.3% 0.041 257)",
+        "hex": "#5b6b82",
+        "tonalRamp": [
+          "oklch(15.0% 0.041 257)",
+          "oklch(25.0% 0.041 257)",
+          "oklch(35.0% 0.041 257)",
+          "oklch(45.0% 0.041 257)",
+          "oklch(58.0% 0.041 257)",
+          "oklch(72.0% 0.041 257)",
+          "oklch(85.0% 0.029 257)",
+          "oklch(95.0% 0.014 257)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Station name 이학산 and numbers-ride values."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section signs (역명판 headings)."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Story stop headings, exit names, sequence names, button labels."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text, Body Ink, tabular numerals."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "English sub-lines, dates, route nav, table heads, chips."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The single easing curve: map draw-in, hovers, ride."
+      },
+      {
+        "name": "map-draw",
+        "value": "1.4s ease-out-expo, orange line delayed 0.7s, stations fade in at 0.9s",
+        "purpose": "The one authored moment: line map draws in on load."
+      },
+      {
+        "name": "ride-slide",
+        "value": "opacity 0.5s, transform 0.6s (translateY 16px) ease-out-expo",
+        "purpose": "Pinned numbers ride slide change; train marker slides 0.6s."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce",
+        "purpose": "Removes map draw and the pinned ride (stacked list instead)."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "app-stack",
+        "value": "960px"
+      },
+      {
+        "name": "map-vertical",
+        "value": "720px"
+      },
+      {
+        "name": "ride-min",
+        "value": "721px"
+      },
+      {
+        "name": "app-compact",
+        "value": "560px"
+      },
+      {
+        "name": "nav-compact",
+        "value": "420px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Action Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single filled accent action: orange with ink text, arrow nudges right on hover. Used for the app link and the run button.",
+      "html": "<a class=\"ds-btn-app\" href=\"#\">체험 앱 열기 <svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 10h11M11 5l5 5-5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a>",
+      "css": ".ds-btn-app{display:inline-flex;align-items:center;gap:16px;background:#e06a12;color:#0f1a2b;padding:16px 24px;border-radius:8px;font:800 18px/1.4 'Pretendard Variable',Pretendard,-apple-system,'Apple SD Gothic Neo',system-ui,sans-serif;text-decoration:none;transition:transform .2s cubic-bezier(.16,1,.3,1),background .2s}.ds-btn-app svg{transition:transform .25s cubic-bezier(.16,1,.3,1)}.ds-btn-app:hover{background:#f07b22}.ds-btn-app:hover svg{transform:translateX(4px)}.ds-btn-app:active{transform:translateY(1px)}.ds-btn-app:focus-visible{outline:3px solid #1f5fbf;outline-offset:3px;border-radius:2px}"
+    },
+    {
+      "name": "Run Button",
+      "kind": "button",
+      "refersTo": "button-run",
+      "description": "Run control inside the app workspace: same orange fill, 56px tall; disabled state drops to rule grey with progress cursor.",
+      "html": "<button class=\"ds-btn-run\" type=\"button\">실험 시작</button> <button class=\"ds-btn-run\" type=\"button\" disabled>실험 중</button>",
+      "css": ".ds-btn-run{border:0;border-radius:8px;cursor:pointer;background:#e06a12;color:#0f1a2b;font:800 18px 'Pretendard Variable',Pretendard,-apple-system,system-ui,sans-serif;padding:0 24px;min-height:56px;transition:background .2s,transform .15s cubic-bezier(.16,1,.3,1)}.ds-btn-run:hover{background:#f07b22}.ds-btn-run:active{transform:translateY(1px)}.ds-btn-run:focus-visible{outline:3px solid #1f5fbf;outline-offset:3px;border-radius:2px}.ds-btn-run:disabled{background:#d3dce5;color:#536075;cursor:progress;transform:none}"
+    },
+    {
+      "name": "Section Sign",
+      "kind": "custom",
+      "refersTo": "section-sign",
+      "description": "역명판 section heading: 44px line bullet, heavy Korean name, small English beneath.",
+      "html": "<div class=\"ds-sign\"><span class=\"ds-bullet\">1</span><div><h2>이야기</h2><span class=\"ds-sign-en\">Story</span></div></div>",
+      "css": ".ds-sign{display:flex;align-items:center;gap:24px;font-family:'Pretendard Variable',Pretendard,-apple-system,'Apple SD Gothic Neo',system-ui,sans-serif;color:#0f1a2b}.ds-bullet{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#0a8f4d;color:#fff;font-size:20px;font-weight:800;line-height:1}.ds-sign h2{margin:0;font-size:40px;font-weight:800;line-height:1.25;letter-spacing:-.02em}.ds-sign-en{display:block;font-size:14px;font-weight:500;color:#536075;letter-spacing:.06em;margin-top:4px}"
+    },
+    {
+      "name": "Route Nav Stop",
+      "kind": "nav",
+      "refersTo": "route-nav",
+      "description": "Sticky nav station: white circle with a line-colored 4px ring, fills and scales when current; joined by 20px x 4px track segments.",
+      "html": "<ul class=\"ds-route\"><li><a href=\"#\" class=\"ds-stop ds-stop--story\" aria-current=\"true\">이야기</a></li><li><a href=\"#\" class=\"ds-stop ds-stop--exp\">숫자</a></li><li><a href=\"#\" class=\"ds-stop ds-stop--out\">대표작</a></li></ul>",
+      "css": ".ds-route{display:flex;align-items:center;list-style:none;margin:0;padding:0;font-family:'Pretendard Variable',Pretendard,-apple-system,system-ui,sans-serif}.ds-route li{display:flex;align-items:center}.ds-route li+li::before{content:'';width:20px;height:4px;background:#d3dce5}.ds-stop{--c:#9fb0c2;display:flex;align-items:center;gap:8px;height:56px;padding-inline:10px;font-size:14px;font-weight:600;color:#536075;text-decoration:none;white-space:nowrap;transition:color .2s}.ds-stop::before{content:'';width:14px;height:14px;border-radius:50%;background:#fff;border:4px solid var(--c);transition:background .2s,transform .3s cubic-bezier(.16,1,.3,1)}.ds-stop--story{--c:#0a8f4d}.ds-stop--exp{--c:#1f5fbf}.ds-stop--out{--c:#e06a12}.ds-stop:hover{color:#0f1a2b}.ds-stop[aria-current]{color:#0f1a2b}.ds-stop[aria-current]::before{background:var(--c);transform:scale(1.25)}.ds-stop:focus-visible{outline:3px solid #1f5fbf;outline-offset:3px;border-radius:2px}"
+    },
+    {
+      "name": "Station Sign Panel",
+      "kind": "card",
+      "refersTo": "sign-panel",
+      "description": "The one navy sign panel per screen (appbox on the site, intro on the app): 12px radius, white heading, blue-grey body, orange action.",
+      "html": "<div class=\"ds-appbox\"><h3>논문 체험 앱</h3><p>검정을 통과한 수열이 정말 무작위인지, <strong>직접 눌러서</strong> 확인합니다.</p><a class=\"ds-appbox-btn\" href=\"#\">체험 앱 열기</a></div>",
+      "css": ".ds-appbox{background:#0f2745;color:#fff;border-radius:12px;padding:48px 32px;max-width:420px;font-family:'Pretendard Variable',Pretendard,-apple-system,system-ui,sans-serif}.ds-appbox h3{margin:0;font-size:28px;font-weight:800;line-height:1.25;letter-spacing:-.02em;color:#fff}.ds-appbox p{margin:16px 0 0;color:#b8c6d8;font-size:16px;line-height:1.75}.ds-appbox p strong{color:#fff;font-weight:600}.ds-appbox-btn{display:inline-flex;margin-top:32px;background:#e06a12;color:#0f1a2b;padding:16px 24px;border-radius:8px;font-size:18px;font-weight:800;text-decoration:none;transition:background .2s,transform .2s cubic-bezier(.16,1,.3,1)}.ds-appbox-btn:hover{background:#f07b22}.ds-appbox-btn:active{transform:translateY(1px)}.ds-appbox-btn:focus-visible{outline:3px solid #fff;outline-offset:3px;border-radius:2px}"
+    },
+    {
+      "name": "Segmented Control",
+      "kind": "chip",
+      "refersTo": "seg-control",
+      "description": "Radio group with a 2px ink frame and 2px ink dividers; selected segment inverts to ink fill.",
+      "html": "<div class=\"ds-seg\" role=\"radiogroup\" aria-label=\"진자\"><button type=\"button\" role=\"radio\" aria-checked=\"true\"><b>5°</b><span>작게 흔들기</span></button><button type=\"button\" role=\"radio\" aria-checked=\"false\"><b>170°</b><span>크게 흔들기</span></button></div>",
+      "css": ".ds-seg{display:inline-flex;border:2px solid #0f1a2b;border-radius:8px;overflow:hidden;font-family:'Pretendard Variable',Pretendard,-apple-system,system-ui,sans-serif}.ds-seg button{display:grid;justify-items:center;align-content:center;min-width:88px;padding:6px 12px;background:#fff;color:#0f1a2b;border:0;cursor:pointer;line-height:1.3;font:inherit;transition:background .2s,color .2s}.ds-seg button+button{border-left:2px solid #0f1a2b}.ds-seg b{font-size:17px;font-weight:800}.ds-seg span{font-size:12px;font-weight:500;color:#536075}.ds-seg button:hover{background:#f3f6f8}.ds-seg button[aria-checked=true]{background:#0f1a2b;color:#fff}.ds-seg button[aria-checked=true] span{color:#b8c6d8}.ds-seg button:focus-visible{outline:3px solid #1f5fbf;outline-offset:-5px}"
+    },
+    {
+      "name": "Sequence Row",
+      "kind": "custom",
+      "refersTo": "sequence-row",
+      "description": "Result row: 44px numbered line bullet, name with sub-line, verdict chip, 12-value strip and a p-value track whose first 5% is the fail zone.",
+      "html": "<div class=\"ds-seq\"><span class=\"ds-seq-bullet\">3</span><div class=\"ds-seq-head\"><span class=\"ds-seq-name\">카운터</span><span class=\"ds-seq-sub\">0, 1, 2… 255까지 세고 다시 0</span></div><span class=\"ds-verdict ds-verdict--pass\">통과</span><div class=\"ds-vals\"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span></div><div class=\"ds-scale\"><div class=\"ds-track\"><span class=\"ds-track-fail\"></span><span class=\"ds-track-tick\">0.05</span><span class=\"ds-marker\"></span></div><span class=\"ds-ptext\">p값 1.000</span></div></div> <span class=\"ds-verdict ds-verdict--fail\">실패</span> <span class=\"ds-verdict ds-verdict--idle\">대기</span>",
+      "css": ".ds-seq{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:8px 16px;padding:24px 0;border-top:1px solid #d3dce5;font-family:'Pretendard Variable',Pretendard,-apple-system,system-ui,sans-serif;color:#0f1a2b;font-variant-numeric:tabular-nums;max-width:640px}.ds-seq-bullet{grid-column:1;grid-row:1/3;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#e06a12;color:#0f1a2b;font-size:20px;font-weight:800;line-height:1}.ds-seq-head{grid-column:2;grid-row:1}.ds-seq-name{font-size:18px;font-weight:800;line-height:1.35;letter-spacing:-.01em}.ds-seq-sub{display:block;font-size:13px;font-weight:500;color:#536075;line-height:1.5;margin-top:2px}.ds-seq>.ds-verdict{grid-column:3;grid-row:1/3;align-self:start}.ds-verdict{display:inline-grid;place-items:center;min-width:84px;height:34px;padding:0 16px;border-radius:6px;border:2px solid #0f1a2b;font-size:15px;font-weight:800}.ds-verdict--pass{background:#0f1a2b;color:#fff}.ds-verdict--fail{background:#fff;color:#0f1a2b;text-decoration:underline wavy;text-underline-offset:4px}.ds-verdict--idle{border-style:dashed;border-color:#9fb0c2;color:#536075;font-weight:600}.ds-vals{grid-column:2;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:3px}.ds-vals span{height:28px;display:grid;place-items:center;border:1px solid #d3dce5;border-radius:4px;background:#f3f6f8;font-size:13px;font-weight:600}.ds-scale{grid-column:2;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center}.ds-track{position:relative;height:8px;margin:8px 8px 26px;background:#d3dce5;border-radius:4px}.ds-track-fail{position:absolute;inset:0 auto 0 0;width:5%;background:#2a3a52;opacity:.4;border-radius:4px 0 0 4px}.ds-track-tick{position:absolute;left:5%;top:100%;margin-top:12px;font-size:11px;color:#536075;transform:translateX(-50%);line-height:1}.ds-marker{position:absolute;top:50%;left:100%;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:#e06a12;border:3px solid #fff;box-shadow:0 0 0 2px #0f1a2b}.ds-ptext{font-size:13px;font-weight:600;white-space:nowrap}"
+    },
+    {
+      "name": "Exit Row",
+      "kind": "nav",
+      "refersTo": "exit-row",
+      "description": "Terminal-station link row: orange number, large Korean name that slides 8px on hover, description, arrow; strong rules above and below, paper fill on hover.",
+      "html": "<a class=\"ds-exit\" href=\"#\"><span class=\"ds-exit-no\">출구 1</span><span class=\"ds-exit-name\">이력서</span><span class=\"ds-exit-desc\">학력, 활동, 자격을 한 장으로</span><svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 10h11M11 5l5 5-5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a>",
+      "css": ".ds-exit{display:grid;grid-template-columns:72px minmax(0,5fr) minmax(0,6fr) auto;align-items:center;gap:16px;padding:24px 8px;border-top:1px solid #9fb0c2;border-bottom:1px solid #9fb0c2;text-decoration:none;color:#0f1a2b;font-family:'Pretendard Variable',Pretendard,-apple-system,system-ui,sans-serif;transition:background .2s}.ds-exit:hover{background:#fff}.ds-exit-no{font-size:14px;font-weight:700;color:#b4520a}.ds-exit-name{display:inline-block;font-size:28px;font-weight:700;letter-spacing:-.02em;transition:transform .3s cubic-bezier(.16,1,.3,1)}.ds-exit:hover .ds-exit-name{transform:translateX(8px)}.ds-exit-desc{font-size:15px;color:#536075;line-height:1.6}.ds-exit svg{transition:transform .25s cubic-bezier(.16,1,.3,1)}.ds-exit:hover svg{transform:translateX(4px)}.ds-exit:focus-visible{outline:3px solid #1f5fbf;outline-offset:3px;border-radius:2px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Line Map",
+    "overview": "The whole system is a Seoul-subway-style diagram and its station signage. A visitor reads the site as a map before they read it as a document: the story line (이야기선, green) and the experiment line (실험선, blue) meet at a transfer station (대표작) and continue as the submission line (제출선, orange) to the terminal exits. The app borrows the same rules, so the two surfaces read as one network. Lines are 14px, bend only at 45 degrees; stations are white circles with a heavy ink outline; the interchange is a larger capsule.\n\nThe voice is calm, exact and trustworthy. Wayfinding replaces decoration: every graphic element names a place or a state, and the hierarchy follows station signs (big Korean name, small English beneath, tabular numerals). Ink on cool paper carries almost everything; line colors appear as fills on bullets, rails and tracks, and orange is reserved for the one action a visitor should take.\n\nAnything that looks AI-default is rejected by the owner: a cream ground with a red accent, dot grids, same-size rounded card grids, a centered hero with a gradient, three-color decorative stripes, glass.",
+    "keyCharacteristics": [
+      "Cool white ground, navy-leaning ink, three line colors used as fills.",
+      "One navy sign panel per screen, at most.",
+      "Station-sign type hierarchy in a single family, Pretendard Variable.",
+      "Flat surfaces; depth from 1px and 2px rules and fill contrast.",
+      "One authored motion moment (the map drawing in) plus the pinned numbers ride."
+    ],
+    "rules": [
+      {
+        "name": "The Fill-Only Rule",
+        "body": "Line colors appear as fills and strokes of map elements, never as text color on paper except through their darker `-ink` variants.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Action Rule",
+        "body": "Orange is the single accent action. Ink text on orange, never white. If a second orange control appears on a screen, one of them is wrong.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Sign Rule",
+        "body": "The navy sign panel appears at most once per screen.",
+        "section": "colors"
+      },
+      {
+        "name": "The Station Sign Rule",
+        "body": "Every named place carries a big Korean name and, beneath it, a small English line in Muted Slate. English never sits above the name.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Family Rule",
+        "body": "Pretendard Variable only; no second face for display.",
+        "section": "typography"
+      },
+      {
+        "name": "The Rules-Not-Shadows Rule",
+        "body": "To separate or raise something, use a rule or a fill change. Do not add blur shadows.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** let line color be a fill on bullets, rails, tracks and strokes; use the `-ink` variants for any small colored text.",
+      "**Do** use ink text on orange (#e06a12) for the single accent action per screen.",
+      "**Do** use 14px lines with 45-degree bends only, white circle stations with a heavy ink outline, and a larger capsule for interchanges.",
+      "**Do** put the Korean name first and big, with a small Muted English line beneath.",
+      "**Do** build depth from 1px and 2px rules and fill changes.",
+      "**Do** keep numerals tabular and body text on `word-break: keep-all`.",
+      "**Do** honor reduced motion: the map appears already drawn and the numbers become a stacked list."
+    ],
+    "donts": [
+      "**Don't** use a cream ground with a red accent, dot grids, same-size rounded card grids, a centered hero with a gradient, three-color decorative stripes, or glass.",
+      "**Don't** place the navy sign panel more than once per screen.",
+      "**Don't** put a label or eyebrow above a heading; a sub-line may sit beneath it.",
+      "**Don't** add blur or ambient shadows, or a second display typeface.",
+      "**Don't** use white text on orange, or orange as text color on paper.",
+      "**Don't** introduce bends other than 45 degrees or line widths other than 14px on the map."
+    ]
+  }
+}

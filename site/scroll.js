@@ -1,98 +1,114 @@
 (function () {
   "use strict";
 
-  var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var wide = window.matchMedia("(min-width: 721px)");
 
-  /* ---------- 상단 내비게이션: 스크롤 시 반투명 → 불투명 ---------- */
-  var navBar = document.getElementById("nav-bar");
-  if (navBar && navBar.dataset.static !== "true") {
-    var toggleNav = function () {
-      if (window.scrollY > 40) {
-        navBar.classList.add("is-solid");
-      } else {
-        navBar.classList.remove("is-solid");
+  /* ───── 상단 진행 바: 스크롤 위치와 현재 노선 색 ───── */
+  var nav = document.querySelector(".nav");
+  var onDocPage = !document.querySelector(".route a[href^='#']");
+  var setProgress = function (line) {
+    if (!nav) return;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    nav.style.setProperty("--sp", max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
+    if (line) nav.style.setProperty("--pc", "var(--" + line + ")");
+  };
+  if (onDocPage) {
+    setProgress("out");
+    window.addEventListener("scroll", function () { setProgress("out"); }, { passive: true });
+  }
+
+  /* ───── 노선 진행 바: 현재 구역 표시 ───── */
+  var links = Array.prototype.slice.call(document.querySelectorAll(".route a[href^='#']"));
+  var targets = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+
+  if (links.length) {
+    var spyTicking = false;
+
+    var spy = function () {
+      spyTicking = false;
+      var probe = window.scrollY + window.innerHeight * 0.4;
+      var current = -1;
+      targets.forEach(function (el, i) {
+        if (el && el.getBoundingClientRect().top + window.scrollY <= probe) current = i;
+      });
+      links.forEach(function (a, i) {
+        if (i === current) a.setAttribute("aria-current", "location");
+        else a.removeAttribute("aria-current");
+      });
+      setProgress(current >= 0 ? links[current].getAttribute("data-line") : "story");
+    };
+
+    var onSpyScroll = function () {
+      if (!spyTicking) {
+        spyTicking = true;
+        window.requestAnimationFrame(spy);
       }
     };
-    toggleNav();
-    window.addEventListener("scroll", toggleNav, { passive: true });
+
+    spy();
+    window.addEventListener("scroll", onSpyScroll, { passive: true });
+    window.addEventListener("resize", onSpyScroll);
   }
 
-  /* ---------- 섹션 등장 애니메이션 (fade-up) ---------- */
-  var revealTargets = document.querySelectorAll(".reveal");
-  if (revealTargets.length) {
-    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
-      revealTargets.forEach(function (el) { el.classList.add("in-view"); });
-    } else {
-      var io = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("in-view");
-              io.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
-      );
-      revealTargets.forEach(function (el) { io.observe(el); });
-    }
-  }
+  /* ───── 숫자 구간: 스크롤 고정 + 열차가 정차할 때마다 한 항목씩 ───── */
+  var pin = document.querySelector(".numbers-pin");
+  if (!pin) return;
 
-  /* ---------- 숫자 섹션: 스크롤 고정 + 진행률에 따라 한 항목씩 등장 ---------- */
-  var pinSection = document.querySelector(".numbers-pin");
-  var slides = pinSection ? pinSection.querySelectorAll(".number-slide") : [];
-  var dots = pinSection ? pinSection.querySelectorAll(".stage-dots span") : [];
+  var slides = pin.querySelectorAll(".number-slide");
+  var stops = pin.querySelectorAll(".ride-stops span");
+  var ride = document.getElementById("ride");
+  var count = document.getElementById("ride-count");
+  var n = slides.length;
+  if (!n) return;
 
-  var pinEnabled = !!pinSection && slides.length > 0 && !prefersReducedMotion && window.innerWidth > 720;
+  var lastIndex = -1;
 
-  var showAll = function () {
-    slides.forEach(function (slide) { slide.classList.add("is-active"); });
+  var setActive = function (index) {
+    if (index === lastIndex) return;
+    lastIndex = index;
+    slides.forEach(function (slide, i) { slide.classList.toggle("is-active", i === index); });
+    stops.forEach(function (stop, i) {
+      stop.classList.toggle("is-done", i < index);
+      stop.classList.toggle("is-active", i === index);
+    });
+    if (ride) ride.style.setProperty("--p", n > 1 ? index / (n - 1) : 0);
+    if (count) count.textContent = "정차 " + (index + 1) + " / " + n;
   };
 
-  if (pinEnabled) {
-    pinSection.classList.add("js-pin");
+  var update = function () {
+    var rect = pin.getBoundingClientRect();
+    var total = rect.height - window.innerHeight;
+    if (total <= 0) return;
+    var progress = Math.max(0, Math.min(0.999, -rect.top / total));
+    setActive(Math.min(n - 1, Math.floor(progress * n)));
+  };
 
-    var ticking = false;
-    var n = slides.length;
+  var ticking = false;
+  var onScroll = function () {
+    if (!ticking) {
+      ticking = true;
+      window.requestAnimationFrame(function () { ticking = false; update(); });
+    }
+  };
 
-    var setActive = function (index) {
-      slides.forEach(function (slide, i) {
-        slide.classList.toggle("is-active", i === index);
-      });
-      dots.forEach(function (dot, i) {
-        dot.classList.toggle("is-active", i === index);
-      });
-    };
+  var pinned = false;
 
-    var updatePin = function () {
-      ticking = false;
-      var rect = pinSection.getBoundingClientRect();
-      var total = rect.height - window.innerHeight;
-      if (total <= 0) return;
-      var progress = -rect.top / total;
-      progress = Math.max(0, Math.min(0.999, progress));
-      var index = Math.max(0, Math.min(n - 1, Math.floor(progress * n)));
-      setActive(index);
-    };
+  var sync = function () {
+    var want = !reduceMotion.matches && wide.matches;
+    if (want === pinned) return;
+    pinned = want;
+    if (want) {
+      lastIndex = -1;
+      update();
+      setActive(Math.max(lastIndex, 0));
+      window.addEventListener("scroll", onScroll, { passive: true });
+    } else {
+      window.removeEventListener("scroll", onScroll);
+      slides.forEach(function (slide) { slide.classList.remove("is-active"); });
+    }
+  };
 
-    var onScroll = function () {
-      if (!ticking) {
-        window.requestAnimationFrame(updatePin);
-        ticking = true;
-      }
-    };
-
-    setActive(0);
-    updatePin();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", function () {
-      if (window.innerWidth <= 720) {
-        pinSection.classList.remove("js-pin");
-        showAll();
-        window.removeEventListener("scroll", onScroll);
-      }
-    });
-  } else if (pinSection) {
-    showAll();
-  }
+  sync();
+  window.addEventListener("resize", sync);
 })();

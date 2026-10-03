@@ -2,711 +2,427 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>이중진자 무작위성 체험 — 이학산</title>
-<meta name="description" content="카이제곱 균등성 검정이 완전히 예측 가능한 수열도 통과시킨다는 논문 결과를 직접 체험하는 앱" />
+<meta name="description" content="무작위 검정을 통과해도 무작위가 아닐 수 있다는 논문 결과를, 이중진자 시뮬레이션으로 직접 확인하는 앱" />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <style>
-/* ── Design tokens (포트폴리오 상속) ── */
 :root {
-  --bg: #fdfcfb;
-  --surface: #faf6f5;
-  --ink: #18171c;
-  --muted: #6c6a70;
-  --accent: #b3232f;
-  --accent-soft: #f8e0e0;
-  --border: #e8e5df;
-  --pass: #1a7a3f;
-  --pass-bg: #e8f5ee;
-  --radius: 6px;
-  --font: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, sans-serif;
-  --mono: "SF Mono", "Fira Code", "Consolas", ui-monospace, monospace;
-  --nav-h: 3.5rem;
+  --ground: #f3f6f8;
+  --paper: #ffffff;
+  --ink: #0f1a2b;
+  --ink-2: #2a3a52;
+  --muted: #536075;
+  --rule: #d3dce5;
+  --rule-strong: #9fb0c2;
+
+  --c-pend5: #0a8f4d;
+  --c-pend170: #1f5fbf;
+  --c-counter: #e06a12;
+  --c-sha: #5b6b82;
+  --out-ink: #b4520a;
+
+  --sign: #0f2745;
+  --sign-ink: #ffffff;
+  --sign-muted: #b8c6d8;
+
+  --font: "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --s1: 4px; --s2: 8px; --s3: 16px; --s4: 24px; --s5: 32px; --s6: 48px; --s7: 64px; --s8: 96px;
+  --gutter: clamp(20px, 4vw, 48px);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { scrollbar-color: var(--rule-strong) var(--ground); }
 body {
-  background-color: var(--bg);
-  background-image: radial-gradient(rgba(24,23,28,.07) 1px, transparent 1px);
-  background-size: 26px 26px;
-  color: var(--ink);
-  font-family: var(--font);
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
-  min-height: 100dvh;
+  background: var(--ground); color: var(--ink);
+  font-family: var(--font); font-size: 16px; line-height: 1.75;
+  word-break: keep-all; overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased; font-variant-numeric: tabular-nums;
 }
+h1, h2, h3 { text-wrap: balance; line-height: 1.25; letter-spacing: -0.02em; }
+p { text-wrap: pretty; }
+a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+ol, ul { padding: 0; list-style: none; }
+button { font: inherit; color: inherit; }
+::selection { background: var(--ink); color: var(--paper); }
+:focus-visible { outline: 3px solid var(--c-pend170); outline-offset: 3px; border-radius: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-a { color: var(--accent); text-underline-offset: 3px; }
+.wrap { width: 100%; max-width: calc(1200px + var(--gutter) * 2); margin-inline: auto; padding-inline: var(--gutter); }
 
-::selection { background: var(--accent-soft); color: var(--ink); }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+/* ───── top bar ───── */
+.topbar { position: relative; height: 56px; border-bottom: 1px solid var(--rule); background: var(--ground); }
+.topbar .wrap { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+.back { display: inline-flex; align-items: center; gap: var(--s2); font-size: 14px; font-weight: 600; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.back:hover { color: var(--ink); }
+.who { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
 
-/* ── Back nav ── */
-.top-nav {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  height: var(--nav-h);
-  display: flex;
-  align-items: center;
-  padding: 0 clamp(1rem, 4vw, 2rem);
-  background: rgba(253,252,251,.9);
-  backdrop-filter: saturate(180%) blur(12px);
-  -webkit-backdrop-filter: saturate(180%) blur(12px);
-  border-bottom: 1px solid var(--border);
+/* ───── intro sign ───── */
+.intro {
+  margin-top: var(--s4);
+  background: var(--sign); color: var(--sign-ink);
+  border-radius: 12px; padding: var(--s6) var(--s6);
+  display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--s5) var(--s7); align-items: center;
 }
+.intro h1 { font-size: clamp(30px, 4vw, 44px); font-weight: 800; letter-spacing: -0.03em; }
+.lede { margin-top: var(--s3); font-size: clamp(17px, 1.8vw, 20px); line-height: 1.65; font-weight: 500; max-width: 30em; }
+.lede strong { font-weight: 800; }
+.paper-title { margin-top: var(--s4); font-size: 14px; line-height: 1.6; color: var(--sign-muted); }
+.paper-title a { color: var(--sign-ink); font-weight: 600; text-decoration-color: rgba(255,255,255,.4); }
+.paper-title a:hover { text-decoration-color: var(--sign-ink); }
 
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  font-size: .875rem;
-  font-weight: 500;
-  color: var(--muted);
-  text-decoration: none;
-  transition: color .2s;
+.steps { position: relative; display: grid; gap: var(--s4); }
+.steps::before { content: ""; position: absolute; left: 9px; top: 12px; bottom: 12px; width: 4px; background: rgba(184, 198, 216, 0.3); }
+.steps li { position: relative; padding-left: 44px; }
+.steps li::before {
+  content: ""; position: absolute; left: 0; top: 3px; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--sign); border: 4px solid var(--sign-muted);
+  transition: background 0.3s, border-color 0.3s;
 }
-.back-link:hover { color: var(--ink); }
-.back-link svg { flex-shrink: 0; }
+.steps .step-t { display: block; font-size: 17px; font-weight: 700; line-height: 1.4; }
+.steps .step-s { display: block; font-size: 14px; color: var(--sign-muted); line-height: 1.5; margin-top: 2px; }
+.steps li { opacity: 0.62; transition: opacity 0.3s; }
+.steps li.is-done { opacity: 1; }
+.steps li.is-done::before { background: var(--sign-ink); border-color: var(--sign-ink); }
+.steps li.is-now { opacity: 1; }
+.steps li.is-now::before { background: var(--c-counter); border-color: var(--c-counter); }
 
-.nav-title {
-  margin-left: auto;
-  font-size: .8rem;
-  color: var(--muted);
-  letter-spacing: .02em;
-}
+/* ───── workspace ───── */
+.workspace { margin-top: var(--s6); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--s6); align-items: start; }
+.panel { min-width: 0; }
 
-/* ── App header ── */
-.app-header {
-  padding: clamp(2rem, 5vw, 3.5rem) clamp(1rem, 4vw, 2rem) clamp(1.25rem, 3vw, 2rem);
-  max-width: 900px;
-  margin: 0 auto;
+.canvas-wrap { position: relative; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; background: #fff; }
+#pendulum { display: block; width: 100%; height: auto; aspect-ratio: 400 / 360; }
+.canvas-tag {
+  position: absolute; left: var(--s3); top: var(--s3);
+  display: inline-flex; align-items: center; gap: var(--s2);
+  font-size: 13px; font-weight: 700; color: var(--ink);
 }
+.canvas-tag i { width: 12px; height: 12px; border-radius: 50%; background: var(--tag, var(--c-pend5)); }
 
-.header-label {
-  display: inline-block;
-  font-size: .75rem;
-  font-weight: 600;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: .75rem;
+.controls { margin-top: var(--s3); display: grid; grid-template-columns: auto 1fr; gap: var(--s3); align-items: stretch; }
+.seg { display: inline-flex; border: 2px solid var(--ink); border-radius: 8px; overflow: hidden; }
+.seg button {
+  display: grid; justify-items: center; align-content: center; gap: 0; min-width: 88px; padding: 6px 12px;
+  background: var(--paper); border: 0; cursor: pointer; line-height: 1.3;
+  transition: background 0.2s, color 0.2s;
 }
+.seg button + button { border-left: 2px solid var(--ink); }
+.seg button b { font-size: 17px; font-weight: 800; }
+.seg button span { font-size: 12px; font-weight: 500; color: var(--muted); }
+.seg button:hover { background: var(--ground); }
+.seg button[aria-checked="true"] { background: var(--ink); color: var(--paper); }
+.seg button[aria-checked="true"] span { color: var(--sign-muted); }
+.seg-note { margin-top: var(--s2); font-size: 13px; color: var(--muted); line-height: 1.55; }
 
-.app-header h1 {
-  font-size: clamp(1.5rem, 4vw, 2.25rem);
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -.02em;
-  color: var(--ink);
-  margin-bottom: .75rem;
+.btn-run {
+  border: 0; border-radius: 8px; cursor: pointer;
+  background: var(--c-counter); color: var(--ink);
+  font-size: 18px; font-weight: 800; padding: 0 var(--s4); min-height: 56px;
+  transition: background 0.2s, transform 0.15s var(--ease);
 }
+.btn-run:hover { background: #f07b22; }
+.btn-run:active { transform: translateY(1px); }
+.btn-run:disabled { background: var(--rule); color: var(--muted); cursor: progress; transform: none; }
 
-.app-header .desc {
-  font-size: clamp(.95rem, 2vw, 1.05rem);
-  color: var(--muted);
-  max-width: 62ch;
-  line-height: 1.7;
-}
+.progress { margin-top: var(--s4); }
+.progress-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; color: var(--muted); font-weight: 600; }
+.progress-row output { color: var(--ink); font-weight: 700; }
+.bar { position: relative; margin-top: var(--s2); height: 6px; border-radius: 3px; background: var(--rule); }
+.bar-fill { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: 3px; background: var(--ink); }
 
-.paper-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .5rem;
-  margin-top: 1rem;
-}
+/* ───── board ───── */
+.board-head h2 { font-size: clamp(22px, 2.4vw, 28px); font-weight: 800; }
+.board-head p { margin-top: var(--s1); color: var(--muted); font-size: 15px; }
 
-.paper-link {
-  display: inline-flex;
-  align-items: center;
-  gap: .3rem;
-  padding: .3rem .75rem;
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  font-size: .8rem;
-  font-weight: 500;
-  color: var(--muted);
-  text-decoration: none;
-  background: var(--surface);
-  transition: border-color .2s, color .2s;
+.seqs { margin-top: var(--s3); border-bottom: 1px solid var(--rule); }
+.seq {
+  display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: var(--s2) var(--s3);
+  padding: var(--s4) 0; border-top: 1px solid var(--rule);
 }
-.paper-link:hover { border-color: var(--accent); color: var(--accent); }
+.seq-head { grid-column: 2; grid-row: 1; }
+.seq-bullet {
+  grid-column: 1; grid-row: 1 / 3; width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--c); color: #fff; font-size: 20px; font-weight: 800; line-height: 1;
+}
+.seq[data-key="counter"] .seq-bullet { color: var(--ink); }
+.seq-name { font-size: 18px; font-weight: 800; line-height: 1.35; letter-spacing: -0.01em; }
+.seq-sub { display: block; font-size: 13px; font-weight: 500; color: var(--muted); line-height: 1.5; margin-top: 2px; }
+.seq-verdict { grid-column: 3; grid-row: 1 / 3; align-self: start; }
 
-/* ── Main split layout ── */
-.app-body {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+.vals { grid-column: 2; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3px; }
+.vals span {
+  height: 28px; padding: 0 2px; display: grid; place-items: center;
+  border: 1px solid var(--rule); border-radius: 4px; background: var(--ground);
+  font-size: 13px; font-weight: 600; color: var(--ink);
 }
+.vals span.empty { color: var(--rule-strong); }
 
-@media (max-width: 700px) {
-  .app-body { grid-template-columns: 1fr; }
+.scale { grid-column: 2; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s3); align-items: center; }
+.track { position: relative; height: 8px; margin: 8px 8px 26px; background: var(--rule); border-radius: 4px; }
+.track-fail { position: absolute; inset: 0 auto 0 0; width: 5%; background: var(--ink-2); opacity: 0.4; border-radius: 4px 0 0 4px; }
+.track-tick { position: absolute; left: 5%; top: 100%; margin-top: 12px; font-size: 11px; color: var(--muted); transform: translateX(-50%); line-height: 1; }
+.marker {
+  position: absolute; top: 50%; left: 0; width: 16px; height: 16px; margin: -8px 0 0 -8px;
+  border-radius: 50%; background: var(--c); border: 3px solid var(--paper); box-shadow: 0 0 0 2px var(--ink);
+  opacity: 0; transition: left 0.7s var(--ease), opacity 0.3s;
 }
+.ptext { font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.ptext small { font-size: 12px; font-weight: 500; color: var(--muted); margin-left: var(--s2); }
 
-/* ── Simulation panel (left) ── */
-.sim-panel {
-  padding: clamp(1.25rem, 3vw, 2rem);
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+.verdict {
+  display: inline-grid; place-items: center; min-width: 84px; height: 34px; padding: 0 var(--s3);
+  border-radius: 6px; border: 2px solid var(--ink); font-size: 15px; font-weight: 800;
 }
+.verdict[data-state="idle"] { border-style: dashed; border-color: var(--rule-strong); color: var(--muted); font-weight: 600; }
+.verdict[data-state="run"] { border-color: var(--ink); color: var(--ink); background: var(--ground); animation: breathe 1.4s ease-in-out infinite; }
+.verdict[data-state="pass"] { background: var(--ink); color: var(--paper); }
+.verdict[data-state="fail"] { background: var(--paper); color: var(--ink); text-decoration: underline wavy; text-underline-offset: 4px; }
+@keyframes breathe { 50% { opacity: 0.55; } }
 
-@media (max-width: 700px) {
-  .sim-panel { border-right: none; border-bottom: 1px solid var(--border); }
+/* ───── conclusion ───── */
+.conclusion {
+  margin-top: var(--s6); border-top: 2px solid var(--ink); padding: var(--s5) 0 0;
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--s4) var(--s7);
 }
+.conclusion[hidden] { display: none; }
+.conclusion h2 { font-size: clamp(26px, 3.2vw, 38px); font-weight: 800; letter-spacing: -0.03em; }
+.conclusion-body p { color: var(--ink-2); font-size: 16px; line-height: 1.75; }
+.conclusion-body p + p { margin-top: var(--s3); }
+.conclusion-body strong { color: var(--ink); font-weight: 700; }
+.conclusion-body a { color: var(--ink); font-weight: 600; }
 
-.panel-label {
-  font-size: .75rem;
-  font-weight: 600;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
+/* ───── notes ───── */
+.notes { margin-top: var(--s5); border-top: 1px solid var(--rule-strong); }
+.notes details { border-bottom: 1px solid var(--rule-strong); }
+.notes summary { display: flex; justify-content: space-between; align-items: center; gap: var(--s3); cursor: pointer; padding: var(--s3) var(--s1); font-size: 17px; font-weight: 700; list-style: none; }
+.notes summary::-webkit-details-marker { display: none; }
+.notes summary::after { content: "+"; font-size: 22px; font-weight: 500; line-height: 1; transition: transform 0.25s var(--ease); }
+.notes details[open] summary::after { transform: rotate(45deg); }
+.notes .note-body { padding: 0 var(--s1) var(--s4); color: var(--ink-2); font-size: 15px; line-height: 1.8; max-width: 46em; }
+.notes .note-body p + p { margin-top: var(--s2); }
 
-.canvas-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
+.foot { padding: var(--s6) var(--gutter) var(--s7); text-align: center; font-size: 14px; color: var(--muted); }
 
-#pendulum-canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
+/* ───── responsive ───── */
+@media (max-width: 960px) {
+  .intro { grid-template-columns: 1fr; padding: var(--s5); }
+  .conclusion { grid-template-columns: 1fr; }
+  .workspace { grid-template-columns: 1fr; }
 }
-
-.canvas-badge {
-  position: absolute;
-  top: .6rem;
-  right: .75rem;
-  font-family: var(--mono);
-  font-size: .7rem;
-  color: var(--muted);
-  background: rgba(253,252,251,.85);
-  padding: .15rem .45rem;
-  border-radius: 3px;
+@media (max-width: 560px) {
+  .controls { grid-template-columns: 1fr; }
+  .seg { justify-self: stretch; }
+  .seg button { flex: 1; }
+  .seq { grid-template-columns: 44px minmax(0, 1fr); }
+  .seq-verdict { grid-row: auto; grid-column: 1 / -1; }
+  .seq-bullet { grid-row: 1; }
+  .seq-head { grid-column: 2; }
+  .vals, .scale { grid-column: 1 / -1; }
+  .vals { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; }
+  .scale { grid-template-columns: 1fr; gap: 0; }
+  .ptext { margin-bottom: var(--s2); }
+  .who { display: none; }
 }
-
-/* ── Amplitude selector ── */
-.amp-group {
-  display: flex;
-  flex-direction: column;
-  gap: .5rem;
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.01ms !important; animation: none !important; }
 }
-
-.amp-group-label {
-  font-size: .8rem;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.amp-btns {
-  display: flex;
-  gap: .5rem;
-}
-
-.amp-btn {
-  flex: 1;
-  padding: .55rem .75rem;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  font-family: var(--font);
-  font-size: .85rem;
-  font-weight: 500;
-  color: var(--muted);
-  cursor: pointer;
-  transition: border-color .2s, color .2s, background .2s;
-  text-align: center;
-}
-.amp-btn:hover { border-color: var(--accent); color: var(--ink); }
-.amp-btn.active {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-weight: 600;
-}
-.amp-btn:disabled { opacity: .45; cursor: not-allowed; }
-
-/* ── Run button ── */
-#run-btn {
-  padding: .75rem 1.25rem;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  font-family: var(--font);
-  font-size: .95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity .2s, transform .1s;
-  letter-spacing: .01em;
-}
-#run-btn:hover { opacity: .88; }
-#run-btn:active { transform: scale(.98); }
-#run-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-
-/* ── Progress ── */
-.progress-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: .4rem;
-  opacity: 0;
-  transition: opacity .3s;
-}
-.progress-wrap.visible { opacity: 1; }
-
-.progress-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.progress-header-label {
-  font-size: .8rem;
-  color: var(--muted);
-}
-
-.progress-count {
-  font-family: var(--mono);
-  font-size: .8rem;
-  color: var(--ink);
-}
-
-progress {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 100%;
-  height: 5px;
-  border: none;
-  border-radius: 99px;
-  overflow: hidden;
-}
-progress::-webkit-progress-bar { background: var(--border); border-radius: 99px; }
-progress::-webkit-progress-value { background: var(--accent); border-radius: 99px; transition: width .1s linear; }
-progress::-moz-progress-bar { background: var(--accent); border-radius: 99px; }
-
-/* ── Results panel (right) ── */
-.results-panel {
-  padding: clamp(1.25rem, 3vw, 2rem);
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.results-heading {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: .5rem;
-}
-
-.results-heading h2 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--ink);
-  letter-spacing: -.01em;
-}
-
-.threshold-label {
-  font-size: .75rem;
-  color: var(--muted);
-}
-.threshold-label code {
-  font-family: var(--mono);
-  font-size: .75rem;
-  background: var(--surface);
-  padding: .1rem .35rem;
-  border-radius: 3px;
-  border: 1px solid var(--border);
-}
-
-/* ── Results table ── */
-.results-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: .875rem;
-}
-
-.results-table th {
-  padding: .5rem .6rem;
-  text-align: left;
-  font-size: .72rem;
-  font-weight: 600;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--muted);
-  border-bottom: 1px solid var(--border);
-}
-
-.results-table td {
-  padding: .75rem .6rem;
-  border-bottom: 1px solid var(--border);
-  vertical-align: middle;
-}
-
-.results-table tr:last-child td { border-bottom: none; }
-
-.seq-name {
-  font-weight: 500;
-  color: var(--ink);
-  white-space: nowrap;
-}
-
-.seq-sub {
-  display: block;
-  font-size: .75rem;
-  color: var(--muted);
-  margin-top: .1rem;
-  font-weight: 400;
-}
-
-.p-value {
-  font-family: var(--mono);
-  font-size: .875rem;
-  color: var(--ink);
-  white-space: nowrap;
-  font-feature-settings: "tnum";
-}
-
-.p-value.empty { color: var(--border); }
-
-.chi-value {
-  font-family: var(--mono);
-  font-size: .8rem;
-  color: var(--muted);
-  white-space: nowrap;
-  font-feature-settings: "tnum";
-}
-
-/* ── Result chips ── */
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: .25rem;
-  padding: .2rem .55rem;
-  border-radius: 4px;
-  font-size: .78rem;
-  font-weight: 600;
-  letter-spacing: .02em;
-  white-space: nowrap;
-}
-
-.chip--pass { background: var(--pass-bg); color: var(--pass); }
-.chip--fail { background: var(--accent-soft); color: var(--accent); }
-.chip--pending { background: var(--surface); color: var(--border); border: 1px solid var(--border); }
-.chip--running {
-  background: var(--surface);
-  color: var(--muted);
-  border: 1px solid var(--border);
-  animation: chip-pulse 1.2s ease-in-out infinite;
-}
-
-@keyframes chip-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: .5; }
-}
-
-/* ── Per-row mini progress ── */
-.row-progress {
-  width: 100%;
-  height: 3px;
-  background: var(--border);
-  border-radius: 99px;
-  margin-top: .4rem;
-  overflow: hidden;
-}
-.row-progress-fill {
-  height: 100%;
-  background: var(--accent);
-  border-radius: 99px;
-  width: 0%;
-  transition: width .1s linear;
-}
-
-/* ── Insight callout ── */
-.insight {
-  border: 1.5px solid var(--accent);
-  border-radius: var(--radius);
-  padding: 1rem 1.15rem;
-  background: var(--accent-soft);
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity .4s ease, transform .4s ease;
-  pointer-events: none;
-}
-.insight.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-
-.insight-title {
-  font-size: .85rem;
-  font-weight: 700;
-  color: var(--accent);
-  margin-bottom: .4rem;
-  letter-spacing: .01em;
-}
-
-.insight-body {
-  font-size: .85rem;
-  color: var(--ink);
-  line-height: 1.65;
-}
-
-/* ── Counter highlight row ── */
-tr.counter-row td { background: rgba(179,35,47,.04); }
-
-/* ── Footer ── */
-.app-footer {
-  padding: 2rem clamp(1rem, 4vw, 2rem);
-  text-align: center;
-  font-size: .8rem;
-  color: var(--muted);
-}
-.app-footer a { color: var(--muted); }
-.app-footer a:hover { color: var(--accent); }
 </style>
 </head>
 <body>
 
-<!-- Back nav -->
-<nav class="top-nav" aria-label="상위 이동">
-  <a class="back-link" href="../site/index.html#work">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    포트폴리오
-  </a>
-  <span class="nav-title">이학산 · 대표작</span>
-</nav>
-
-<!-- Header -->
-<header class="app-header">
-  <span class="header-label">논문 체험 앱</span>
-  <h1>이중진자 무작위성 체험</h1>
-  <p class="desc">
-    카이제곱 균등성 검정이 <strong>완전히 예측 가능한 수열도 통과시킨다</strong>는 논문 결과를,
-    이중진자 시뮬레이션을 직접 돌리며 확인하는 앱입니다.
-    논문: <em>이중진자 시뮬레이션을 통한 무작위성 연구</em> (이학산, 2026)
-  </p>
-  <div class="paper-links">
-    <a class="paper-link" href="../site/assets/thesis/01_가설.pdf" target="_blank" rel="noopener">
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 2h6l3 3v6H2V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 2v3h3" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
-      01. 가설
+<header class="topbar">
+  <div class="wrap">
+    <a class="back" href="../site/index.html#work">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      포트폴리오로
     </a>
-    <a class="paper-link" href="../site/assets/thesis/02_선행연구.pdf" target="_blank" rel="noopener">
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 2h6l3 3v6H2V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 2v3h3" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
-      02. 선행연구
-    </a>
-    <a class="paper-link" href="../site/assets/thesis/03_실험설계및실행.pdf" target="_blank" rel="noopener">
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 2h6l3 3v6H2V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 2v3h3" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
-      03. 실험설계
-    </a>
-    <a class="paper-link" href="../site/assets/thesis/04_결과해석.pdf" target="_blank" rel="noopener">
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 2h6l3 3v6H2V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 2v3h3" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
-      04. 결과해석
-    </a>
+    <span class="who">이학산</span>
   </div>
 </header>
 
-<!-- Main app body: left = simulation, right = results -->
-<div class="app-body" role="main">
+<main class="wrap">
 
-  <!-- Left: Simulation panel -->
-  <section class="sim-panel" aria-label="이중진자 시뮬레이션">
-    <div class="panel-label">시뮬레이션</div>
-
-    <div class="canvas-wrap">
-      <canvas id="pendulum-canvas" width="400" height="400" aria-label="이중진자 궤적 캔버스"></canvas>
-      <span class="canvas-badge" id="canvas-badge">대기 중</span>
+  <section class="intro" aria-labelledby="title">
+    <div>
+      <h1 id="title">이중진자 무작위성 체험</h1>
+      <p class="lede"><strong>이 앱은</strong> '검정을 통과했으니 무작위'라고 믿기 쉬운 입문자가, 외울 수 있는 수열도 같은 검정을 통과하는 것을 직접 눌러 확인하도록 돕습니다.</p>
+      <p class="paper-title">논문 「이중진자 시뮬레이션을 통한 무작위성 연구」 · 이학산 ·
+        <a href="../site/assets/thesis/04_결과해석.pdf">결과해석 읽기</a></p>
     </div>
-
-    <div class="amp-group">
-      <span class="amp-group-label">초기 진폭 선택</span>
-      <div class="amp-btns" role="group" aria-label="초기 진폭">
-        <button class="amp-btn active" data-amp="5" aria-pressed="true">
-          5° <span style="display:block;font-size:.72rem;font-weight:400;color:inherit;margin-top:.1rem">작은 진폭 (규칙적)</span>
-        </button>
-        <button class="amp-btn" data-amp="170" aria-pressed="false">
-          170° <span style="display:block;font-size:.72rem;font-weight:400;color:inherit;margin-top:.1rem">큰 진폭 (카오스)</span>
-        </button>
-      </div>
-    </div>
-
-    <button id="run-btn" type="button">실험 시작</button>
-
-    <div class="progress-wrap" id="progress-wrap" role="status" aria-live="polite">
-      <div class="progress-header">
-        <span class="progress-header-label">비트 수집 중 (θ₂ 가수부 4비트 × 2 = 1바이트)</span>
-        <span class="progress-count" id="progress-count">0 / 2,000 바이트</span>
-      </div>
-      <progress id="collect-progress" max="2000" value="0" aria-label="비트 수집 진행"></progress>
-    </div>
+    <ol class="steps" id="steps" aria-label="이용 순서">
+      <li class="is-now"><span class="step-t">진자를 고른다</span><span class="step-s">5° 또는 170°, 화면에 보일 진자를 선택</span></li>
+      <li><span class="step-t">실험을 시작한다</span><span class="step-s">네 수열이 2,000바이트씩 만들어집니다</span></li>
+      <li><span class="step-t">카운터와 비교한다</span><span class="step-s">0, 1, 2…도 같은 검정을 통과하는지 확인</span></li>
+    </ol>
   </section>
 
-  <!-- Right: Results panel -->
-  <section class="results-panel" aria-label="카이제곱 검정 결과">
-    <div class="results-heading">
-      <h2>카이제곱 균등성 검정</h2>
-      <span class="threshold-label">통과 기준 <code>p &gt; 0.05</code></span>
-    </div>
+  <div class="workspace">
+    <section class="panel" aria-labelledby="bench-h">
+      <h2 class="sr-only" id="bench-h">이중진자 실험대</h2>
+      <div class="canvas-wrap">
+        <canvas id="pendulum" width="800" height="720" role="img" aria-label="이중진자 움직임과 궤적"></canvas>
+        <span class="canvas-tag" id="canvas-tag"><i></i><span id="canvas-tag-text">5° 진자 · 대기 중</span></span>
+      </div>
 
-    <table class="results-table" aria-label="수열별 검정 결과">
-      <thead>
-        <tr>
-          <th scope="col">수열</th>
-          <th scope="col">χ²</th>
-          <th scope="col">p값</th>
-          <th scope="col">판정</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr id="row-pend5">
-          <td>
-            <span class="seq-name">이중진자 5°</span>
-            <span class="seq-sub">작은 진폭 — 논문 '작음' 조건</span>
-            <div class="row-progress"><div class="row-progress-fill" id="prog5"></div></div>
-          </td>
-          <td><span class="chi-value" id="chi5">—</span></td>
-          <td><span class="p-value empty" id="pval5">—</span></td>
-          <td><span class="chip chip--pending" id="chip5">대기</span></td>
-        </tr>
-        <tr id="row-pend170">
-          <td>
-            <span class="seq-name">이중진자 170°</span>
-            <span class="seq-sub">큰 진폭 — 논문 '큼' 조건</span>
-            <div class="row-progress"><div class="row-progress-fill" id="prog170"></div></div>
-          </td>
-          <td><span class="chi-value" id="chi170">—</span></td>
-          <td><span class="p-value empty" id="pval170">—</span></td>
-          <td><span class="chip chip--pending" id="chip170">대기</span></td>
-        </tr>
-        <tr class="counter-row" id="row-counter">
-          <td>
-            <span class="seq-name">카운터 (0→255→0…)</span>
-            <span class="seq-sub">완전히 예측 가능한 수열</span>
-          </td>
-          <td><span class="chi-value" id="chi-counter">—</span></td>
-          <td><span class="p-value empty" id="pval-counter">—</span></td>
-          <td><span class="chip chip--pending" id="chip-counter">대기</span></td>
-        </tr>
-        <tr id="row-sha256">
-          <td>
-            <span class="seq-name">SHA-256 해시열</span>
-            <span class="seq-sub">암호학적 기준점 — 논문 대조군</span>
-          </td>
-          <td><span class="chi-value" id="chi-sha">—</span></td>
-          <td><span class="p-value empty" id="pval-sha">—</span></td>
-          <td><span class="chip chip--pending" id="chip-sha">대기</span></td>
-        </tr>
-      </tbody>
-    </table>
+      <div class="controls">
+        <div class="seg" role="radiogroup" aria-label="화면에 보일 진자">
+          <button type="button" role="radio" aria-checked="true" data-amp="5"><b>5°</b><span>작게 흔들기</span></button>
+          <button type="button" role="radio" aria-checked="false" data-amp="170"><b>170°</b><span>크게 흔들기</span></button>
+        </div>
+        <button class="btn-run" id="run" type="button">실험 시작</button>
+      </div>
+      <p class="seg-note">두 진자는 항상 함께 계산됩니다. 선택은 화면에 보일 진자만 바꿉니다.</p>
 
-    <div class="insight" id="insight" aria-live="polite" aria-atomic="true">
-      <div class="insight-title">논문의 결론</div>
-      <div class="insight-body" id="insight-body"></div>
-    </div>
+      <div class="progress">
+        <div class="progress-row"><span>바이트 수집</span><output id="progress-text">0 / 2,000</output></div>
+        <div class="bar" role="progressbar" aria-label="바이트 수집 진행" aria-valuemin="0" aria-valuemax="2000" aria-valuenow="0" id="bar"><div class="bar-fill" id="bar-fill"></div></div>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="board-h">
+      <div class="board-head">
+        <h2 id="board-h">같은 검정, 네 가지 수열</h2>
+        <p>처음 12개 값을 보세요. 어느 줄이 외울 수 있는 수열일까요?</p>
+      </div>
+
+      <ol class="seqs">
+        <li class="seq" data-key="pend5" style="--c: var(--c-pend5)">
+          <span class="seq-bullet" aria-hidden="true">1</span>
+          <div class="seq-head"><span class="seq-name">이중진자 5°</span><span class="seq-sub">작게 흔들기. 논문의 '작음' 조건</span></div>
+          <div class="seq-verdict"><span class="verdict" data-state="idle">대기</span></div>
+          <div class="vals" aria-label="처음 12개 값"></div>
+          <div class="scale">
+            <div class="track"><span class="track-fail"></span><span class="track-tick">0.05</span><span class="marker"></span></div>
+            <span class="ptext">p값 —</span>
+          </div>
+        </li>
+        <li class="seq" data-key="pend170" style="--c: var(--c-pend170)">
+          <span class="seq-bullet" aria-hidden="true">2</span>
+          <div class="seq-head"><span class="seq-name">이중진자 170°</span><span class="seq-sub">크게 흔들기. 논문의 '큼' 조건</span></div>
+          <div class="seq-verdict"><span class="verdict" data-state="idle">대기</span></div>
+          <div class="vals" aria-label="처음 12개 값"></div>
+          <div class="scale">
+            <div class="track"><span class="track-fail"></span><span class="track-tick">0.05</span><span class="marker"></span></div>
+            <span class="ptext">p값 —</span>
+          </div>
+        </li>
+        <li class="seq" data-key="counter" style="--c: var(--c-counter)">
+          <span class="seq-bullet" aria-hidden="true">3</span>
+          <div class="seq-head"><span class="seq-name">카운터</span><span class="seq-sub">0, 1, 2… 255까지 세고 다시 0. 완전히 예측 가능</span></div>
+          <div class="seq-verdict"><span class="verdict" data-state="idle">대기</span></div>
+          <div class="vals" aria-label="처음 12개 값"></div>
+          <div class="scale">
+            <div class="track"><span class="track-fail"></span><span class="track-tick">0.05</span><span class="marker"></span></div>
+            <span class="ptext">p값 —</span>
+          </div>
+        </li>
+        <li class="seq" data-key="sha" style="--c: var(--c-sha)">
+          <span class="seq-bullet" aria-hidden="true">4</span>
+          <div class="seq-head"><span class="seq-name">SHA-256 해시열</span><span class="seq-sub" id="sha-sub">암호학적 기준점. 논문의 대조군</span></div>
+          <div class="seq-verdict"><span class="verdict" data-state="idle">대기</span></div>
+          <div class="vals" aria-label="처음 12개 값"></div>
+          <div class="scale">
+            <div class="track"><span class="track-fail"></span><span class="track-tick">0.05</span><span class="marker"></span></div>
+            <span class="ptext">p값 —</span>
+          </div>
+        </li>
+      </ol>
+    </section>
+  </div>
+
+  <section class="conclusion" id="conclusion" hidden aria-labelledby="conclusion-h">
+    <h2 id="conclusion-h">통과했다고 무작위는 아니다</h2>
+    <div class="conclusion-body" id="conclusion-body"></div>
   </section>
 
-</div>
+  <div class="notes">
+    <details>
+      <summary>카이제곱 균등성 검정이 뭔가요?</summary>
+      <div class="note-body">
+        <p>0부터 255까지 256가지 값이 각각 몇 번 나왔는지 세고, 기대한 횟수(2,000 ÷ 256 ≈ 7.8회)와 얼마나 다른지를 χ² 값으로 계산합니다.</p>
+        <p>그 χ² 값이 우연히 나올 만한 정도인지를 p값으로 나타내고, p값이 0.05보다 크면 '골고루 나왔다'고 보고 통과로 판정합니다. 논문과 같은 방식(자유도 255, Wilson–Hilferty 근사)입니다.</p>
+      </div>
+    </details>
+    <details>
+      <summary>이중진자에서 숫자는 어떻게 뽑나요?</summary>
+      <div class="note-body">
+        <p>논문과 같은 조건입니다. 막대 길이 1, 질량 1, 중력 9.8, 시간 간격 0.001초로 룽게–쿠타(RK4) 계산을 하고, 두 진자는 처음에 같은 각도(5° 또는 170°)에서 가만히 놓습니다.</p>
+        <p>0.1초마다 아래쪽 진자 각도(θ₂)의 실수 표현에서 가수부 끝 4비트를 읽고, 두 번 읽을 때마다 1바이트로 합칩니다. 2,000바이트가 모이면 검정을 돌립니다.</p>
+        <p>실험할 때마다 처음 각도를 ±0.0001° 안에서 무작위로 흔들어 독립 시행을 만듭니다. 논문이 조건마다 20회를 돌린 방법과 같습니다.</p>
+      </div>
+    </details>
+  </div>
 
-<footer class="app-footer">
-  <a href="../site/index.html#work">← 포트폴리오로 돌아가기</a>
-  &nbsp;·&nbsp;
-  이학산 · 2026
+</main>
+
+<p class="sr-only" id="status" role="status" aria-live="polite"></p>
+
+<footer class="foot">
+  <a href="../site/index.html#work">← 포트폴리오로 돌아가기</a> · 이학산
 </footer>
 
 <script>
-// ─────────────────────────────────────────────────────────
-//  Physics: double pendulum RK4
-//  Parameters match the paper exactly:
-//    L1 = L2 = 1.0, m1 = m2 = 1.0, g = 9.8, dt = 0.001
-//    θ1(0) = θ2(0) = amplitude (degrees → radians)
-//    ω1(0) = ω2(0) = 0
-//  Optimized: pre-allocated Float64Array buffers, no GC pressure.
-// ─────────────────────────────────────────────────────────
-
+// ──────────────────────────────────────────────
+// 물리: 이중진자 RK4 (논문과 같은 조건)
+//   L1 = L2 = 1, m1 = m2 = 1, g = 9.8, dt = 0.001
+//   θ1(0) = θ2(0) = 진폭, ω1(0) = ω2(0) = 0
+// ──────────────────────────────────────────────
 const G = 9.8;
-const DT = 0.001;
-const DT2 = DT / 2;
-const DT6 = DT / 6;
+const DT = 0.001, DT2 = DT / 2, DT6 = DT / 6;
+const _k1 = new Float64Array(4), _k2 = new Float64Array(4), _k3 = new Float64Array(4), _k4 = new Float64Array(4);
 
-// Pre-allocated RK4 scratch buffers
-const _k1 = new Float64Array(4);
-const _k2 = new Float64Array(4);
-const _k3 = new Float64Array(4);
-const _k4 = new Float64Array(4);
-
-// Compute derivatives into pre-allocated out array (L=1 simplification)
 function deriv(t1, w1, t2, w2, out) {
-  const D  = t1 - t2;
-  const sd = Math.sin(D);
-  const cd = Math.cos(D);
-  const dn = 2 - Math.cos(2 * D);
+  // 논문 common.py와 같은 식 (m1 = m2 = 1, L1 = L2 = 1)
+  const D = t1 - t2, sd = Math.sin(D), cd = Math.cos(D), dn = 3 - Math.cos(2 * D);
   out[0] = w1;
-  out[1] = (-G * 2 * Math.sin(t1) - G * Math.sin(t1 - 2 * t2) - 2 * sd * (w2*w2 + w1*w1*cd)) / dn;
+  out[1] = (-3 * G * Math.sin(t1) - G * Math.sin(t1 - 2 * t2) - 2 * sd * (w2 * w2 + w1 * w1 * cd)) / dn;
   out[2] = w2;
-  out[3] = (2 * sd * (w1*w1 + G * Math.cos(t1) + w2*w2*cd)) / dn;
+  out[3] = (2 * sd * (2 * w1 * w1 + 2 * G * Math.cos(t1) + w2 * w2 * cd)) / dn;
 }
 
-// RK4 step in-place on a Float64Array s = [θ1, ω1, θ2, ω2]
 function rk4InPlace(s) {
-  const t1=s[0], w1=s[1], t2=s[2], w2=s[3];
-  deriv(t1,          w1,          t2,          w2,          _k1);
-  deriv(t1+DT2*_k1[0], w1+DT2*_k1[1], t2+DT2*_k1[2], w2+DT2*_k1[3], _k2);
-  deriv(t1+DT2*_k2[0], w1+DT2*_k2[1], t2+DT2*_k2[2], w2+DT2*_k2[3], _k3);
-  deriv(t1+DT *_k3[0], w1+DT *_k3[1], t2+DT *_k3[2], w2+DT *_k3[3], _k4);
-  s[0] += DT6*(_k1[0]+2*_k2[0]+2*_k3[0]+_k4[0]);
-  s[1] += DT6*(_k1[1]+2*_k2[1]+2*_k3[1]+_k4[1]);
-  s[2] += DT6*(_k1[2]+2*_k2[2]+2*_k3[2]+_k4[2]);
-  s[3] += DT6*(_k1[3]+2*_k2[3]+2*_k3[3]+_k4[3]);
+  const t1 = s[0], w1 = s[1], t2 = s[2], w2 = s[3];
+  deriv(t1, w1, t2, w2, _k1);
+  deriv(t1 + DT2 * _k1[0], w1 + DT2 * _k1[1], t2 + DT2 * _k1[2], w2 + DT2 * _k1[3], _k2);
+  deriv(t1 + DT2 * _k2[0], w1 + DT2 * _k2[1], t2 + DT2 * _k2[2], w2 + DT2 * _k2[3], _k3);
+  deriv(t1 + DT * _k3[0], w1 + DT * _k3[1], t2 + DT * _k3[2], w2 + DT * _k3[3], _k4);
+  s[0] += DT6 * (_k1[0] + 2 * _k2[0] + 2 * _k3[0] + _k4[0]);
+  s[1] += DT6 * (_k1[1] + 2 * _k2[1] + 2 * _k3[1] + _k4[1]);
+  s[2] += DT6 * (_k1[2] + 2 * _k2[2] + 2 * _k3[2] + _k4[2]);
+  s[3] += DT6 * (_k1[3] + 2 * _k2[3] + 2 * _k3[3] + _k4[3]);
 }
 
-// ─────────────────────────────────────────────────────────
-//  Bit extraction
-//  Extract 4 LSBs from θ2's IEEE 754 float64 mantissa
-// ─────────────────────────────────────────────────────────
-
-const _buf = new ArrayBuffer(8);
-const _view = new DataView(_buf);
+// ──────────────────────────────────────────────
+// 비트 추출: θ2(IEEE754 float64)의 가수부 하위 4비트, 두 번 읽어 1바이트
+// ──────────────────────────────────────────────
+const _view = new DataView(new ArrayBuffer(8));
 
 function extractNibble(theta2) {
-  _view.setFloat64(0, theta2, false); // big-endian
-  return _view.getUint8(7) & 0x0F;   // 4 LSBs of mantissa
+  _view.setFloat64(0, theta2, false);
+  return _view.getUint8(7) & 0x0F;
 }
 
-// Accumulator: two nibbles → one byte
 function makeBitAccumulator() {
   let pending = null;
   const bytes = [];
-
-  function feed(theta2) {
-    const nibble = extractNibble(theta2);
-    if (pending === null) {
-      pending = nibble;
-    } else {
-      bytes.push((pending << 4) | nibble);
-      pending = null;
-    }
-  }
-
-  return { feed, bytes, get count() { return bytes.length; } };
+  return {
+    bytes,
+    feed(theta2) {
+      const nibble = extractNibble(theta2);
+      if (pending === null) pending = nibble;
+      else { bytes.push((pending << 4) | nibble); pending = null; }
+    },
+  };
 }
 
-// ─────────────────────────────────────────────────────────
-//  Chi-square test with Wilson–Hilferty approximation
-//  Matches paper's method: df=255, threshold p>0.05
-// ─────────────────────────────────────────────────────────
-
+// ──────────────────────────────────────────────
+// 카이제곱 균등성 검정 (자유도 255, Wilson–Hilferty 근사, p > 0.05 통과)
+// ──────────────────────────────────────────────
 function normalCDF(z) {
-  // Hart approximation for Φ(z)
   const t = 1 / (1 + 0.2316419 * Math.abs(z));
   const d = 0.3989422820 * Math.exp(-z * z / 2);
   const poly = t * (0.3193815 + t * (-0.3565638 + t * (1.7814779 + t * (-1.8212560 + t * 1.3302744))));
@@ -717,28 +433,17 @@ function normalCDF(z) {
 function chiSquareTest(bytes) {
   const freq = new Array(256).fill(0);
   for (const b of bytes) freq[b]++;
-
-  const n = bytes.length;
-  const expected = n / 256;
+  const expected = bytes.length / 256;
   let chi2 = 0;
   for (let i = 0; i < 256; i++) {
     const d = freq[i] - expected;
     chi2 += d * d / expected;
   }
-
   const df = 255;
-  const x = Math.cbrt(chi2 / df);
-  const mu = 1 - 2 / (9 * df);
-  const sigma = Math.sqrt(2 / (9 * df));
-  const z = (x - mu) / sigma;
+  const z = (Math.cbrt(chi2 / df) - (1 - 2 / (9 * df))) / Math.sqrt(2 / (9 * df));
   const p = 1 - normalCDF(z);
-
-  return { chi2: chi2, p: p, pass: p > 0.05 };
+  return { chi2, p, pass: p > 0.05, first: bytes.slice(0, 12) };
 }
-
-// ─────────────────────────────────────────────────────────
-//  Sequential counter (completes instantly)
-// ─────────────────────────────────────────────────────────
 
 function runCounter(n) {
   const bytes = [];
@@ -746,410 +451,317 @@ function runCounter(n) {
   return chiSquareTest(bytes);
 }
 
-// ─────────────────────────────────────────────────────────
-//  SHA-256 via Web Crypto (async)
-// ─────────────────────────────────────────────────────────
-
 async function runSHA256(n) {
+  const bytes = [];
   try {
-    const bytes = [];
-    let seed = 0;
     const enc = new TextEncoder();
+    let seed = 0;
     while (bytes.length < n) {
-      const hash = await crypto.subtle.digest('SHA-256', enc.encode('seed_' + (seed++)));
-      const view = new Uint8Array(hash);
-      for (const b of view) { if (bytes.length < n) bytes.push(b); }
+      const hash = new Uint8Array(await crypto.subtle.digest("SHA-256", enc.encode("seed_" + seed++)));
+      for (const b of hash) if (bytes.length < n) bytes.push(b);
     }
     return chiSquareTest(bytes);
   } catch {
-    // Fallback: simple hash-like PRNG
-    const bytes = [];
+    bytes.length = 0;
     let x = 0x12345678;
     while (bytes.length < n) {
-      x = ((x ^ (x << 13)) >>> 0); x = ((x ^ (x >> 17)) >>> 0); x = ((x ^ (x << 5)) >>> 0);
+      x ^= x << 13; x >>>= 0; x ^= x >>> 17; x ^= x << 5; x >>>= 0;
       bytes.push(x & 0xFF);
     }
-    return chiSquareTest(bytes);
+    return { ...chiSquareTest(bytes), fallback: true };
   }
 }
 
-// ─────────────────────────────────────────────────────────
-//  Canvas drawing
-// ─────────────────────────────────────────────────────────
+// ──────────────────────────────────────────────
+// 캔버스
+// ──────────────────────────────────────────────
+const COLORS = { 5: "#0a8f4d", 170: "#1f5fbf" };
+const canvas = document.getElementById("pendulum");
+const ctx = canvas.getContext("2d");
+const CW = 400, CH = 360, PX = 200, PY = 180, SCALE = 80;
+ctx.setTransform(2, 0, 0, 2, 0, 0);
 
-const canvas = document.getElementById('pendulum-canvas');
-const ctx = canvas.getContext('2d');
-
-const CW = 400;
-const CH = 400;
-const PIVOT_X = CW / 2;
-const PIVOT_Y = 90;
-const SCALE = 120; // px per unit length
-
-// Trace ring buffer (last 300 tip positions)
-const TRACE_MAX = 300;
-let trace5 = [], trace170 = [];
-
-function worldToCanvas(theta1, theta2) {
-  const x1 = PIVOT_X + SCALE * Math.sin(theta1);
-  const y1 = PIVOT_Y + SCALE * Math.cos(theta1); // y-down, cos for downward
-  const x2 = x1 + SCALE * Math.sin(theta2);
-  const y2 = y1 + SCALE * Math.cos(theta2);
-  return { x1, y1, x2, y2 };
+function tipOf(t1, t2) {
+  return { x: PX + SCALE * (Math.sin(t1) + Math.sin(t2)), y: PY + SCALE * (Math.cos(t1) + Math.cos(t2)) };
 }
 
-function drawFrame(state, traceArr) {
-  const { theta1, theta2 } = state || { theta1: 0, theta2: 0 };
-  const { x1, y1, x2, y2 } = worldToCanvas(theta1, theta2);
-
+function drawFrame(t1, t2, trace, color) {
   ctx.clearRect(0, 0, CW, CH);
 
-  // Background subtle dots (inherit body pattern via transparent bg)
-  ctx.fillStyle = '#faf6f5';
-  ctx.fillRect(0, 0, CW, CH);
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "#d3dce5";
+  ctx.setLineDash([4, 4]);
+  for (const r of [SCALE, 2 * SCALE]) { ctx.beginPath(); ctx.arc(PX, PY, r, 0, Math.PI * 2); ctx.stroke(); }
+  ctx.setLineDash([]);
+  ctx.beginPath();
+  ctx.moveTo(PX - 2 * SCALE - 14, PY); ctx.lineTo(PX + 2 * SCALE + 14, PY);
+  ctx.moveTo(PX, PY - 2 * SCALE - 14); ctx.lineTo(PX, PY + 2 * SCALE + 14);
+  ctx.stroke();
 
-  // Trace (fading accent)
-  if (traceArr.length > 1) {
-    for (let i = 1; i < traceArr.length; i++) {
-      const alpha = (i / traceArr.length) * 0.6;
+  if (trace.length > 2) {
+    const bands = 4, size = Math.ceil(trace.length / bands);
+    ctx.lineWidth = 2; ctx.lineJoin = "round"; ctx.lineCap = "round"; ctx.strokeStyle = color;
+    for (let b = 0; b < bands; b++) {
+      const from = Math.max(b * size - 1, 0), to = Math.min((b + 1) * size, trace.length);
+      ctx.globalAlpha = 0.18 + 0.82 * ((b + 1) / bands);
       ctx.beginPath();
-      ctx.strokeStyle = `rgba(179,35,47,${alpha})`;
-      ctx.lineWidth = 1.5;
-      ctx.moveTo(traceArr[i - 1].x, traceArr[i - 1].y);
-      ctx.lineTo(traceArr[i].x, traceArr[i].y);
+      ctx.moveTo(trace[from].x, trace[from].y);
+      for (let i = from + 1; i < to; i++) ctx.lineTo(trace[i].x, trace[i].y);
       ctx.stroke();
     }
+    ctx.globalAlpha = 1;
   }
 
-  // Arm 1
-  ctx.beginPath();
-  ctx.strokeStyle = '#18171c';
-  ctx.lineWidth = 2.5;
-  ctx.lineCap = 'round';
-  ctx.moveTo(PIVOT_X, PIVOT_Y);
-  ctx.lineTo(x1, y1);
-  ctx.stroke();
+  const x1 = PX + SCALE * Math.sin(t1), y1 = PY + SCALE * Math.cos(t1);
+  const { x: x2, y: y2 } = tipOf(t1, t2);
 
-  // Arm 2
-  ctx.beginPath();
-  ctx.strokeStyle = '#18171c';
-  ctx.lineWidth = 2;
-  ctx.moveTo(x1, y1);
-  ctx.lineTo(x2, y2);
-  ctx.stroke();
+  ctx.lineCap = "round"; ctx.strokeStyle = "#0f1a2b"; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(PX, PY); ctx.lineTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
 
-  // Pivot
-  ctx.beginPath();
-  ctx.arc(PIVOT_X, PIVOT_Y, 5, 0, Math.PI * 2);
-  ctx.fillStyle = '#18171c';
-  ctx.fill();
-
-  // Joint 1
-  ctx.beginPath();
-  ctx.arc(x1, y1, 7, 0, Math.PI * 2);
-  ctx.fillStyle = '#18171c';
-  ctx.fill();
-
-  // Tip (accent)
-  ctx.beginPath();
-  ctx.arc(x2, y2, 7, 0, Math.PI * 2);
-  ctx.fillStyle = '#b3232f';
-  ctx.fill();
-  ctx.beginPath();
-  ctx.arc(x2, y2, 4, 0, Math.PI * 2);
-  ctx.fillStyle = '#fdfcfb';
-  ctx.fill();
+  ctx.fillStyle = "#0f1a2b";
+  ctx.beginPath(); ctx.arc(PX, PY, 5, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x1, y1, 7, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = color;
+  ctx.beginPath(); ctx.arc(x2, y2, 9, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = "#fff"; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.arc(x2, y2, 9, 0, Math.PI * 2); ctx.stroke();
 }
 
-// Initial draw
-drawFrame({ theta1: (5 * Math.PI / 180), theta2: (5 * Math.PI / 180) }, []);
-
-// ─────────────────────────────────────────────────────────
-//  Simulation state
-// ─────────────────────────────────────────────────────────
-
-const SAMPLE_STEPS = 100;  // steps per sample (0.1s simulation time per sample)
-const STEPS_PER_FRAME = 800; // ~8 samples per frame → ~500 frames → ~8.3s
+// ──────────────────────────────────────────────
+// 시뮬레이션 상태
+// ──────────────────────────────────────────────
+const SAMPLE_STEPS = 100;     // 0.1초마다 한 번 읽는다
+const STEPS_PER_FRAME = 800;
+const TRACE_EVERY = 40;
+const TRACE_MAX = 240;
 const TARGET_BYTES = 2000;
 
-let sim5   = null; // { state: [θ1,ω1,θ2,ω2], acc, stepsSinceLastSample }
-let sim170 = null;
-let rafId  = null;
+let sims = {};
 let selectedAmp = 5;
 let running = false;
+let results = {};
 
-// Keyed results: counter, sha, pend5, pend170
-let allResults = {};
-
+// 논문과 같은 독립 시행: θ1, θ2를 각각 ±0.0001° 안에서 미세하게 흔든다
 function makeSim(ampDeg) {
-  const rad = ampDeg * Math.PI / 180;
+  const jitter = () => (Math.random() * 2 - 1) * 0.0001;
+  const rad1 = (ampDeg + jitter()) * Math.PI / 180;
+  const rad2 = (ampDeg + jitter()) * Math.PI / 180;
   const state = new Float64Array(4);
-  state[0] = rad; state[2] = rad;
-  return { state, acc: makeBitAccumulator(), stepsSinceLastSample: 0, done: false };
+  state[0] = rad1; state[2] = rad2;
+  return { state, acc: makeBitAccumulator(), steps: 0, trace: [], done: false };
 }
 
-// ─────────────────────────────────────────────────────────
-//  UI helpers
-// ─────────────────────────────────────────────────────────
-
-function fmt(n, decimals = 4) { return n.toFixed(decimals); }
-
-function setResult(id, result) {
-  const chiEl  = document.getElementById('chi' + id);
-  const pEl    = document.getElementById('pval' + id);
-  const chipEl = document.getElementById('chip' + id);
-  const prog   = document.getElementById('prog' + id);
-
-  if (chiEl) { chiEl.textContent = fmt(result.chi2, 1); chiEl.classList.remove('empty'); }
-  if (pEl)   { pEl.textContent   = fmt(result.p, 4);   pEl.classList.remove('empty'); }
-  if (prog)  { prog.style.width = '100%'; }
-
-  if (chipEl) {
-    if (result.pass) {
-      chipEl.className = 'chip chip--pass';
-      chipEl.textContent = '통과 ✓';
-    } else {
-      chipEl.className = 'chip chip--fail';
-      chipEl.textContent = '실패 ✗';
+function advanceSim(sim) {
+  if (sim.done) return;
+  for (let i = 0; i < STEPS_PER_FRAME; i++) {
+    rk4InPlace(sim.state);
+    sim.steps++;
+    if (sim.steps % SAMPLE_STEPS === 0) sim.acc.feed(sim.state[2]);
+    if (sim.steps % TRACE_EVERY === 0) {
+      sim.trace.push(tipOf(sim.state[0], sim.state[2]));
+      if (sim.trace.length > TRACE_MAX) sim.trace.shift();
     }
+    if (sim.acc.bytes.length >= TARGET_BYTES) { sim.done = true; break; }
   }
 }
 
-function setChipRunning(id) {
-  const chipEl = document.getElementById('chip' + id);
-  if (chipEl) { chipEl.className = 'chip chip--running'; chipEl.textContent = '수집 중…'; }
+// ──────────────────────────────────────────────
+// 화면 갱신
+// ──────────────────────────────────────────────
+const $ = (sel, root = document) => root.querySelector(sel);
+const rowOf = (key) => $(`.seq[data-key="${key}"]`);
+const fmt = (n, d = 4) => n.toFixed(d);
+
+function renderValues(key, bytes) {
+  const box = $(".vals", rowOf(key));
+  if (!box.children.length) {
+    for (let i = 0; i < 12; i++) box.appendChild(document.createElement("span"));
+  }
+  Array.from(box.children).forEach((cell, i) => {
+    const v = bytes && bytes[i];
+    cell.textContent = v === undefined ? "–" : v;
+    cell.classList.toggle("empty", v === undefined);
+  });
 }
 
-function updateProgress(bytes5, bytes170) {
-  const main = selectedAmp === 5 ? bytes5 : bytes170;
-  document.getElementById('collect-progress').value = main;
-  document.getElementById('progress-count').textContent = main.toLocaleString('ko') + ' / 2,000 바이트';
+function setVerdict(key, state, result) {
+  const row = rowOf(key);
+  const chip = $(".verdict", row);
+  chip.dataset.state = state;
+  chip.textContent = { idle: "대기", run: "수집 중", pass: "통과", fail: "불합격" }[state];
 
-  const p5 = (bytes5 / TARGET_BYTES * 100).toFixed(0) + '%';
-  const p170 = (bytes170 / TARGET_BYTES * 100).toFixed(0) + '%';
-  const pr5 = document.getElementById('prog5');
-  const pr170 = document.getElementById('prog170');
-  if (pr5 && sim5 && sim5.acc.count < TARGET_BYTES) pr5.style.width = p5;
-  if (pr170 && sim170 && sim170.acc.count < TARGET_BYTES) pr170.style.width = p170;
+  const marker = $(".marker", row);
+  const ptext = $(".ptext", row);
+  if (result) {
+    marker.style.left = (Math.min(Math.max(result.p, 0), 1) * 100) + "%";
+    marker.style.opacity = 1;
+    ptext.innerHTML = "p값 " + fmt(result.p) + "<small>χ² " + fmt(result.chi2, 1) + "</small>";
+  } else {
+    marker.style.opacity = 0;
+    ptext.textContent = "p값 —";
+  }
 }
 
-function showInsight(r) {
-  // r = { counter, sha, pend5, pend170 }
-  const body = document.getElementById('insight-body');
-  const lines = [];
+function setStep(n) {
+  Array.from($("#steps").children).forEach((li, i) => {
+    li.classList.toggle("is-done", i < n);
+    li.classList.toggle("is-now", i === n);
+  });
+}
+
+function updateProgress(count) {
+  $("#bar-fill").style.width = (count / TARGET_BYTES * 100) + "%";
+  $("#bar").setAttribute("aria-valuenow", count);
+  $("#progress-text").textContent = count.toLocaleString("ko") + " / 2,000";
+}
+
+function updateTag(text) {
+  $("#canvas-tag").style.setProperty("--tag", COLORS[selectedAmp]);
+  $("#canvas-tag-text").textContent = text;
+}
+
+function showPreview() {
+  const rad = selectedAmp * Math.PI / 180;
+  drawFrame(rad, rad, [], COLORS[selectedAmp]);
+  updateTag(selectedAmp + "° 진자 · 대기 중");
+}
+
+function showConclusion(r) {
+  const body = $("#conclusion-body");
+  const parts = [];
 
   if (r.counter.pass) {
-    lines.push('<strong>카운터(0→255→0…)도 통과했습니다.</strong> 완전히 외울 수 있는 수열인데도 p=' + fmt(r.counter.p, 4) + '로 기준을 넘었습니다.');
+    parts.push("<p><strong>카운터(0, 1, 2…)도 통과했습니다.</strong> 외워서 쓸 수 있는 수열인데 p값이 " + fmt(r.counter.p) + "으로 기준(0.05)을 넘었습니다.</p>");
   } else {
-    lines.push('카운터가 이번엔 실패했습니다 (p=' + fmt(r.counter.p, 4) + '). 이론적으로 카운터는 항상 통과해야 합니다 — 검정 이상입니다.');
+    parts.push("<p>카운터가 이번에는 불합격으로 나왔습니다 (p값 " + fmt(r.counter.p) + "). 이론상 카운터는 항상 통과해야 하므로 계산을 다시 확인해야 합니다.</p>");
   }
 
-  if (!r.pend5.pass) {
-    lines.push('이중진자 5° 조건이 이번 실험에서 실패했습니다 (p=' + fmt(r.pend5.p, 4) + '). 논문에서도 5° 조건은 20회 중 1회 실패했습니다 — 균등성 검정도 작은 진폭에서는 가끔 한계를 드러냅니다.');
-  }
-  if (!r.pend170.pass) {
-    lines.push('이중진자 170° 조건이 이번 실험에서 실패했습니다 (p=' + fmt(r.pend170.p, 4) + '). 단일 실험의 통계적 변동입니다 — 논문은 20회 반복으로 통과율을 측정했습니다.');
+  for (const [key, label] of [["pend5", "5°"], ["pend170", "170°"]]) {
+    if (!r[key].pass) {
+      parts.push("<p>이번 실험에서 이중진자 " + label + "는 불합격이었습니다 (p값 " + fmt(r[key].p) + "). 한 번의 시행에서는 통계적 변동으로 이런 일이 생길 수 있어서, 논문은 조건마다 20회를 반복해 통과율로 판단했습니다.</p>");
+    }
   }
 
-  lines.push('');
-  lines.push('<em>카이제곱 균등성 검정은 "값이 골고루 나오는가"만 확인합니다. "다음 값을 예측할 수 있는가"는 확인하지 않습니다. 통계적으로 균등해 보이는 것과 실제로 예측 불가능한 것은 같지 않습니다.</em>');
-  lines.push('');
-  lines.push('— 논문 §9, 이학산 (2026)');
+  parts.push("<p>이 검정은 0~255가 골고루 나왔는지만 봅니다. 다음 값을 맞힐 수 있는지는 보지 않습니다. 통계적으로 균등해 보이는 것과 실제로 예측 불가능한 것은 다릅니다. (논문 결과해석 §9)</p>");
+  parts.push("<p><strong>논문 결과(조건당 20회):</strong> 이중진자 5° 통과율 95%, 170° 통과율 100%, 카운터 100%(p값 1.000), SHA-256 100%.</p>");
+  parts.push('<p><a href="../site/assets/thesis/04_결과해석.pdf">논문 결과해석 읽기</a></p>');
 
-  body.innerHTML = lines.join('<br>');
-  document.getElementById('insight').classList.add('visible');
+  body.innerHTML = parts.join("");
+  $("#conclusion").hidden = false;
 }
 
 function checkAllDone() {
-  const r = allResults;
-  if (!r.counter || !r.sha || !r.pend5 || !r.pend170) return;
-  if (!running) return;
+  const r = results;
+  if (!r.counter || !r.sha || !r.pend5 || !r.pend170 || !running) return;
 
   running = false;
-
-  updateProgress(TARGET_BYTES, TARGET_BYTES);
-  document.getElementById('run-btn').disabled = false;
-  document.getElementById('run-btn').textContent = '다시 실험';
-  document.getElementById('canvas-badge').textContent = '완료';
-  showInsight(r);
+  updateProgress(TARGET_BYTES);
+  $("#run").disabled = false;
+  $("#run").textContent = "다시 실험";
+  updateTag(selectedAmp + "° 진자 · 완료");
+  setStep(3);
+  showConclusion(r);
+  $("#status").textContent = "실험이 끝났습니다. 카운터는 " + (r.counter.pass ? "통과" : "불합격") + "했습니다.";
 }
 
-// ─────────────────────────────────────────────────────────
-//  Animation loop
-// ─────────────────────────────────────────────────────────
-
-function advanceSim(sim, traceArr) {
-  if (sim.done) return;
-
-  for (let i = 0; i < STEPS_PER_FRAME; i++) {
-    rk4InPlace(sim.state);
-    sim.stepsSinceLastSample++;
-
-    if (sim.stepsSinceLastSample >= SAMPLE_STEPS) {
-      sim.acc.feed(sim.state[2]); // θ2 = state[2]
-      sim.stepsSinceLastSample = 0;
-    }
-
-    if (sim.acc.count >= TARGET_BYTES) { sim.done = true; break; }
-  }
-
-  // Update trace
-  const { x2, y2 } = worldToCanvas(sim.state[0], sim.state[2]);
-  traceArr.push({ x: x2, y: y2 });
-  if (traceArr.length > TRACE_MAX) traceArr.shift();
-}
-
-let _lastDraw = 0;
+// ──────────────────────────────────────────────
+// 루프: 보이는 탭은 rAF, 숨은 탭은 MessageChannel
+// ──────────────────────────────────────────────
+let lastDraw = 0;
 
 function tick() {
   if (!running) return;
 
-  advanceSim(sim5, trace5);
-  advanceSim(sim170, trace170);
+  advanceSim(sims.pend5);
+  advanceSim(sims.pend170);
 
-  // Rate-limit canvas/DOM updates to ~60fps regardless of tick rate
   const now = performance.now();
-  if (now - _lastDraw >= 16) {
-    _lastDraw = now;
-    const activeSim = selectedAmp === 5 ? sim5 : sim170;
-    const activeTrace = selectedAmp === 5 ? trace5 : trace170;
-    drawFrame(
-      { theta1: activeSim.state[0], theta2: activeSim.state[2] },
-      activeTrace
-    );
-    document.getElementById('canvas-badge').textContent =
-      selectedAmp === 5
-        ? 'θ₁=5°  ' + sim5.acc.count + 'B'
-        : 'θ₁=170°  ' + sim170.acc.count + 'B';
-    updateProgress(sim5.acc.count, sim170.acc.count);
+  if (now - lastDraw >= 16) {
+    lastDraw = now;
+    const active = selectedAmp === 5 ? sims.pend5 : sims.pend170;
+    drawFrame(active.state[0], active.state[2], active.trace, COLORS[selectedAmp]);
+    updateTag(selectedAmp + "° 진자 · 수집 중");
+    updateProgress(sims.pend5.acc.bytes.length);
+    renderValues("pend5", sims.pend5.acc.bytes);
+    renderValues("pend170", sims.pend170.acc.bytes);
   }
 
-  if (sim5.done && !allResults.pend5) {
-    const r5 = chiSquareTest(sim5.acc.bytes);
-    setResult('5', r5);
-    allResults.pend5 = r5;
-    checkAllDone();
+  for (const [key, sim] of [["pend5", sims.pend5], ["pend170", sims.pend170]]) {
+    if (sim.done && !results[key]) {
+      const res = chiSquareTest(sim.acc.bytes);
+      results[key] = res;
+      renderValues(key, res.first);
+      setVerdict(key, res.pass ? "pass" : "fail", res);
+    }
   }
-
-  if (sim170.done && !allResults.pend170) {
-    const r170 = chiSquareTest(sim170.acc.bytes);
-    setResult('170', r170);
-    allResults.pend170 = r170;
-    checkAllDone();
-  }
+  checkAllDone();
 
   if (running) scheduleTick();
 }
 
-// Hybrid scheduler:
-//   visible tab → requestAnimationFrame (smooth 60fps)
-//   hidden tab  → MessageChannel (not throttled by background timer policy)
-const _mc = new MessageChannel();
-_mc.port1.onmessage = tick;
+const channel = new MessageChannel();
+channel.port1.onmessage = tick;
 function scheduleTick() {
-  if (document.hidden) {
-    _mc.port2.postMessage(null);
-  } else {
-    requestAnimationFrame(tick);
-  }
+  if (document.hidden) channel.port2.postMessage(null);
+  else requestAnimationFrame(tick);
 }
 
-// ─────────────────────────────────────────────────────────
-//  Event handlers
-// ─────────────────────────────────────────────────────────
-
-document.querySelectorAll('.amp-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (running) return;
-    document.querySelectorAll('.amp-btn').forEach(b => {
-      b.classList.remove('active');
-      b.setAttribute('aria-pressed', 'false');
-    });
-    btn.classList.add('active');
-    btn.setAttribute('aria-pressed', 'true');
-    selectedAmp = parseInt(btn.dataset.amp, 10);
-
-    // Update canvas preview
-    const rad = selectedAmp * Math.PI / 180;
-    trace5 = []; trace170 = [];
-    drawFrame({ theta1: rad, theta2: rad }, []);
+// ──────────────────────────────────────────────
+// 이벤트
+// ──────────────────────────────────────────────
+document.querySelectorAll(".seg button").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".seg button").forEach((b) => b.setAttribute("aria-checked", String(b === btn)));
+    selectedAmp = Number(btn.dataset.amp);
+    if (!running) {
+      showPreview();
+      if (!results.counter) setStep(1);
+    }
   });
 });
 
-document.getElementById('run-btn').addEventListener('click', async () => {
+$("#run").addEventListener("click", () => {
   if (running) return;
 
-  // Reset state
-  allResults = {};
-  trace5 = []; trace170 = [];
-
-  sim5   = makeSim(5);
-  sim170 = makeSim(170);
+  results = {};
+  sims = { pend5: makeSim(5), pend170: makeSim(170) };
   running = true;
 
-  // Disable controls
-  document.getElementById('run-btn').disabled = true;
-  document.getElementById('run-btn').textContent = '실험 중…';
-  document.querySelectorAll('.amp-btn').forEach(b => b.disabled = true);
+  $("#run").disabled = true;
+  $("#run").textContent = "실험 중…";
+  $("#conclusion").hidden = true;
+  $("#sha-sub").textContent = "암호학적 기준점. 논문의 대조군";
+  updateProgress(0);
+  setStep(2);
 
-  // Reset result rows
-  ['5', '170', 'counter', 'sha'].forEach(id => {
-    const prefix = id === 'counter' ? 'chip-' : (id === 'sha' ? 'chip-' : 'chip');
-    const chipId = (id === 'counter' || id === 'sha') ? 'chip-' + id : 'chip' + id;
-    const chiId  = (id === 'counter' || id === 'sha') ? 'chi-' + id : 'chi' + id;
-    const pId    = (id === 'counter' || id === 'sha') ? 'pval-' + id : 'pval' + id;
-    const el = document.getElementById(chipId);
-    if (el) { el.className = 'chip chip--running'; el.textContent = '수집 중…'; }
-    const ce = document.getElementById(chiId);
-    if (ce) { ce.textContent = '—'; ce.classList.add('empty'); }
-    const pe = document.getElementById(pId);
-    if (pe) { pe.textContent = '—'; pe.classList.add('empty'); }
-  });
+  for (const key of ["pend5", "pend170", "counter", "sha"]) {
+    setVerdict(key, "run", null);
+    renderValues(key, key === "counter" ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] : []);
+  }
 
-  // Reset progress bars
-  ['prog5', 'prog170'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.width = '0%';
-  });
+  const counter = runCounter(TARGET_BYTES);
+  results.counter = counter;
+  renderValues("counter", counter.first);
+  setVerdict("counter", counter.pass ? "pass" : "fail", counter);
 
-  document.getElementById('insight').classList.remove('visible');
-  document.getElementById('progress-wrap').classList.add('visible');
-
-  // Pendulums: running chip
-  setChipRunning('5');
-  setChipRunning('170');
-
-  // Counter: runs instantly
-  const rCounter = runCounter(TARGET_BYTES);
-  const counterChip = document.getElementById('chip-counter');
-  counterChip.className = 'chip ' + (rCounter.pass ? 'chip--pass' : 'chip--fail');
-  counterChip.textContent = rCounter.pass ? '통과 ✓' : '실패 ✗';
-  const chiCounterEl = document.getElementById('chi-counter');
-  const pCounterEl = document.getElementById('pval-counter');
-  if (chiCounterEl) { chiCounterEl.textContent = fmt(rCounter.chi2, 1); chiCounterEl.classList.remove('empty'); }
-  if (pCounterEl)   { pCounterEl.textContent   = fmt(rCounter.p, 4);   pCounterEl.classList.remove('empty'); }
-  allResults.counter = rCounter;
-  checkAllDone();
-
-  // SHA-256: async (fast)
-  runSHA256(TARGET_BYTES).then(rSha => {
-    const shaChip = document.getElementById('chip-sha');
-    shaChip.className = 'chip ' + (rSha.pass ? 'chip--pass' : 'chip--fail');
-    shaChip.textContent = rSha.pass ? '통과 ✓' : '실패 ✗';
-    const chiShaEl = document.getElementById('chi-sha');
-    const pShaEl = document.getElementById('pval-sha');
-    if (chiShaEl) { chiShaEl.textContent = fmt(rSha.chi2, 1); chiShaEl.classList.remove('empty'); }
-    if (pShaEl)   { pShaEl.textContent   = fmt(rSha.p, 4);   pShaEl.classList.remove('empty'); }
-    allResults.sha = rSha;
+  runSHA256(TARGET_BYTES).then((sha) => {
+    results.sha = sha;
+    renderValues("sha", sha.first);
+    setVerdict("sha", sha.pass ? "pass" : "fail", sha);
+    if (sha.fallback) $("#sha-sub").textContent = "이 브라우저에서는 SHA-256을 쓸 수 없어 대체 난수열을 사용했습니다";
     checkAllDone();
   });
 
-  // Re-enable amplitude buttons
-  document.querySelectorAll('.amp-btn').forEach(b => b.disabled = false);
-
-  // Start simulation loop
   scheduleTick();
 });
+
+// ──────────────────────────────────────────────
+// 첫 화면: 카운터의 첫 12개 값은 시작 전에도 보인다
+// ──────────────────────────────────────────────
+for (const key of ["pend5", "pend170", "counter", "sha"]) {
+  renderValues(key, key === "counter" ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] : []);
+}
+showPreview();
 </script>
 </body>
 </html>

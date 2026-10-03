@@ -4,61 +4,84 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>이력서 — 이학산</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="style.css" />
 </head>
-<body class="doc-page">
-<nav class="nav-bar is-solid" id="nav-bar" data-static="true">
-  <a class="nav-name" href="index.html#top">이학산</a>
-  <div class="nav-links">
-    <a href="index.html#story">이야기</a>
-    <a href="index.html#numbers">숫자</a>
-    <a href="index.html#work">대표작</a>
-    <a href="index.html#resume">이력서</a>
-  </div>
-</nav>
-<main>
-  <a class="doc-back" href="index.html#resume">&larr; 돌아가기</a>
-  <h1>이력서</h1>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
 
-  <table>
-    <tr><th>이름</th><td>이학산</td></tr>
-    <tr><th>이메일</th><td><a href="mailto:san1425865@gmail.com">san1425865@gmail.com</a></td></tr>
-    <tr><th>포트폴리오</th><td>이 사이트 (index.html)</td></tr>
+<header class="nav">
+  <span class="nav-progress" aria-hidden="true"></span>
+  <div class="wrap">
+    <a class="nav-name" href="index.html#top">이학산</a>
+    <nav aria-label="구역 이동">
+      <ol class="route">
+        <li><a href="index.html#story" data-line="story">이야기</a></li>
+        <li><a href="index.html#numbers" data-line="story">숫자</a></li>
+        <li><a href="index.html#work" data-line="exp">대표작</a></li>
+        <li><a href="index.html#resume" data-line="out">이력서</a></li>
+      </ol>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap doc">
+  <a class="doc-back" href="index.html#resume">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    돌아가기
+  </a>
+  <header class="sign">
+    <span class="bullet bullet--out" aria-hidden="true">3</span>
+    <div>
+      <h1>이력서</h1>
+      <span class="sign-en" lang="en">Résumé</span>
+    </div>
+  </header>
+
+  <table class="kv">
+    <tr><th scope="row">이름</th><td>이학산</td></tr>
+    <tr><th scope="row">이메일</th><td><a href="mailto:san1425865@gmail.com">san1425865@gmail.com</a></td></tr>
+    <tr><th scope="row">포트폴리오</th><td>이 사이트 (index.html)</td></tr>
   </table>
 
   <h2>주요 이력 (과제·프로젝트)</h2>
-  <table>
-    <tr><th>기간</th><th>이름</th><th>역할/내용</th><th>관련 능력</th></tr>
-    <tr>
-      <td>2026-05 ~ 2026-06<br>(약 4주)</td>
-      <td>SevMerge — IT 외주 매칭 플랫폼 (개인 프로젝트)</td>
-      <td>Spring Boot 기반 백엔드 중심 풀스택 개발. 1,451개 커밋 (<a href="https://github.com/LeeHakSan/SevMerge">github.com/LeeHakSan/SevMerge</a>)</td>
-      <td>자기동기력</td>
-    </tr>
-    <tr>
-      <td>1일 (SevMerge 이후)</td>
-      <td>flappy-bird</td>
-      <td>AI 도구를 활용해(바이브코딩) 하루 만에 만든 게임 프로젝트 (<a href="https://github.com/LeeHakSan/flappy-bird">github.com/LeeHakSan/flappy-bird</a>)</td>
-      <td>새로운 도구 활용력</td>
-    </tr>
-    <tr>
-      <td>2026-08-11 ~ 2026-09-09</td>
-      <td>서사 문서</td>
-      <td>20일간의 리추얼 기록을 분석해 강점 지도·자기소개서 초안 작성</td>
-      <td>자기동기력·대인관계력</td>
-    </tr>
-    <tr>
-      <td>~2026-09-10</td>
-      <td>논문 「이중진자 시뮬레이션을 이용한 암호학적 무작위성 검증」</td>
-      <td>가설 수립부터 시뮬레이션 실행(60개 시행), 통계 검정, 결과 해석까지 단독 수행</td>
-      <td>자기조절력·자기동기력</td>
-    </tr>
-    <tr>
-      <td>2026-09-15 ~ 2026-09-18</td>
-      <td>장편소설 「그림자를 접는 법」</td>
-      <td>31,634자, 15장 분량의 자전적 장편소설 집필 및 자체 검증</td>
-      <td>자기동기력</td>
-    </tr>
+  <table class="stack">
+    <thead>
+      <tr><th scope="col">기간</th><th scope="col">이름</th><th scope="col">역할/내용</th><th scope="col">관련 능력</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="기간">2026-05 ~ 2026-06<br>(약 4주)</td>
+        <td data-label="이름">SevMerge — IT 외주 매칭 플랫폼 (개인 프로젝트)</td>
+        <td data-label="역할/내용">Spring Boot 기반 백엔드 중심 풀스택 개발. 1,451개 커밋 (<a href="https://github.com/LeeHakSan/SevMerge">github.com/LeeHakSan/SevMerge</a>)</td>
+        <td data-label="관련 능력">자기동기력</td>
+      </tr>
+      <tr>
+        <td data-label="기간">1일 (SevMerge 이후)</td>
+        <td data-label="이름">flappy-bird</td>
+        <td data-label="역할/내용">AI 도구를 활용해(바이브코딩) 하루 만에 만든 게임 프로젝트 (<a href="https://github.com/LeeHakSan/flappy-bird">github.com/LeeHakSan/flappy-bird</a>)</td>
+        <td data-label="관련 능력">새로운 도구 활용력</td>
+      </tr>
+      <tr>
+        <td data-label="기간">2026-08-11 ~ 2026-09-09</td>
+        <td data-label="이름">서사 문서</td>
+        <td data-label="역할/내용">20일간의 리추얼 기록을 분석해 강점 지도·자기소개서 초안 작성</td>
+        <td data-label="관련 능력">자기동기력·대인관계력</td>
+      </tr>
+      <tr>
+        <td data-label="기간">~2026-09-10</td>
+        <td data-label="이름">논문 「이중진자 시뮬레이션을 이용한 암호학적 무작위성 검증」</td>
+        <td data-label="역할/내용">가설 수립부터 시뮬레이션 실행(60개 시행), 통계 검정, 결과 해석까지 단독 수행</td>
+        <td data-label="관련 능력">자기조절력·자기동기력</td>
+      </tr>
+      <tr>
+        <td data-label="기간">2026-09-15 ~ 2026-09-18</td>
+        <td data-label="이름">장편소설 「그림자를 접는 법」</td>
+        <td data-label="역할/내용">31,634자, 15장 분량의 자전적 장편소설 집필 및 자체 검증</td>
+        <td data-label="관련 능력">자기동기력</td>
+      </tr>
+    </tbody>
   </table>
 
   <h2>보유 역량</h2>

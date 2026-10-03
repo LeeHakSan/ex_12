@@ -4,21 +4,40 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>자기소개서 — 이학산</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="style.css" />
 </head>
-<body class="doc-page">
-<nav class="nav-bar is-solid" id="nav-bar" data-static="true">
-  <a class="nav-name" href="index.html#top">이학산</a>
-  <div class="nav-links">
-    <a href="index.html#story">이야기</a>
-    <a href="index.html#numbers">숫자</a>
-    <a href="index.html#work">대표작</a>
-    <a href="index.html#resume">이력서</a>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+
+<header class="nav">
+  <span class="nav-progress" aria-hidden="true"></span>
+  <div class="wrap">
+    <a class="nav-name" href="index.html#top">이학산</a>
+    <nav aria-label="구역 이동">
+      <ol class="route">
+        <li><a href="index.html#story" data-line="story">이야기</a></li>
+        <li><a href="index.html#numbers" data-line="story">숫자</a></li>
+        <li><a href="index.html#work" data-line="exp">대표작</a></li>
+        <li><a href="index.html#resume" data-line="out">이력서</a></li>
+      </ol>
+    </nav>
   </div>
-</nav>
-<main>
-  <a class="doc-back" href="index.html#resume">&larr; 돌아가기</a>
-  <h1>자기소개서</h1>
+</header>
+
+<main id="main" class="wrap doc">
+  <a class="doc-back" href="index.html#resume">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    돌아가기
+  </a>
+  <header class="sign">
+    <span class="bullet bullet--out" aria-hidden="true">3</span>
+    <div>
+      <h1>자기소개서</h1>
+      <span class="sign-en" lang="en">Cover letter</span>
+    </div>
+  </header>
 
   <p>안녕하세요, 이학산입니다.</p>
 

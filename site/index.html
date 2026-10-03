@@ -5,146 +5,291 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>이학산</title>
 <meta name="description" content="이학산 — 자기소개, 기록, 대표작을 담은 공개 페이지" />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="style.css" />
+<script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
 
-<nav class="nav-bar" id="nav-bar">
-  <a class="nav-name" href="#top">이학산</a>
-  <div class="nav-links">
-    <a href="#story">이야기</a>
-    <a href="#numbers">숫자</a>
-    <a href="#work">대표작</a>
-    <a href="#resume">이력서</a>
+<header class="nav">
+  <span class="nav-progress" aria-hidden="true"></span>
+  <div class="wrap">
+    <a class="nav-name" href="#top">이학산</a>
+    <nav aria-label="구역 이동">
+      <ol class="route">
+        <li><a href="#story" data-line="story">이야기</a></li>
+        <li><a href="#numbers" data-line="story">숫자</a></li>
+        <li><a href="#work" data-line="exp">대표작</a></li>
+        <li><a href="#resume" data-line="out">이력서</a></li>
+      </ol>
+    </nav>
   </div>
-</nav>
-
-<header class="hero" id="top">
-  <div class="hero-card">
-    <span class="hero-greeting">안녕하세요, 저는</span>
-    <h1>이학산<span class="accent-dot">.</span></h1>
-    <!-- TODO(본인 확정 필요): 한 줄 소개 후보 3안 중 최종 선택
-         1) 2019년 전학을 계기로, 화내는 대신 먼저 손을 내미는 법을 배운 사람
-         2) 막힌 문제를 끝까지 붙잡아 결국 끝을 보는 사람
-         3) 혼자였던 시간을 지나, 이제는 먼저 다가가는 사람
-         아래는 1안을 임시로 채택한 상태입니다. -->
-    <p class="tagline">2019년 전학을 계기로, 화내는 대신 먼저 손을 내미는 법을 배운 사람</p>
-    <div class="hero-links">
-      <a href="#story">이야기</a>
-      <a href="#numbers">숫자</a>
-      <a href="#work">대표작</a>
-      <a href="#resume">이력서</a>
-    </div>
-  </div>
-  <div class="scroll-cue" aria-hidden="true"></div>
 </header>
 
-<main>
+<main id="main">
 
-  <section id="story" class="story reveal">
-    <h2><span class="section-num">01</span>이야기</h2>
-    <!-- 카드1 초안(draft_자기소개_본편.md) 기반. 본인 검토 후 확정 필요:
-         - 5장 "노트 뒷장에 적었다" 실제 사실 여부 확인 -->
-    <div class="story-body">
-      <p><time datetime="2013">초등학교 3학년 무렵부터 고등학교 1학년 1학기까지</time>, 제대로 된 친구 없이 혼자 지내는 시간이 길었다. 먼저 말을 걸 줄 몰랐고, 누군가 다가와 주기만을 기다렸다. 기다림은 대개 아무 일 없이 끝났다. 집에 돌아와 부모님이 "오늘 어땠어?" 물으면 나는 늘 "그냥 괜찮아"라고만 답했다. 정말 괜찮은 줄 알았던 게 아니라, 괜찮지 않다는 말을 어떻게 꺼내야 할지 몰랐던 거였다.</p>
+  <section class="hero" id="top" aria-labelledby="name">
+    <div class="wrap">
+      <div class="hero-top">
+        <h1 class="name" id="name">
+          <span class="name-ko">이학산</span>
+          <span class="name-en" lang="en">Lee Haksan</span>
+        </h1>
+        <!-- TODO(본인 확정 필요): 한 줄 소개 후보 3안 중 최종 선택
+             1) 2019년 전학을 계기로, 화내는 대신 먼저 손을 내미는 법을 배운 사람
+             2) 막힌 문제를 끝까지 붙잡아 결국 끝을 보는 사람
+             3) 혼자였던 시간을 지나, 이제는 먼저 다가가는 사람
+             아래는 1안을 임시로 채택한 상태입니다. -->
+        <div>
+          <p class="tagline">2019년 전학을 계기로, 화내는 대신 먼저 손을 내미는 법을 배운 사람</p>
+          <p class="role">개발·보안 분야를 지망하는 CS 신입입니다. 대표작은 논문을 직접 체험해 볼 수 있는 웹 앱입니다.</p>
+        </div>
+      </div>
 
-      <p>바뀐 건 <time datetime="2019">2019년 2학기</time>, 부산 양정고등학교로 전학을 가면서다. 낯선 학교로 가는 게 두려웠지만, 그보다 더 두려운 건 원래 다니던 교실에 하루라도 더 앉아 있는 것이었다. 나는 사람을 대하는 태도 자체를 바꾸기로 했다. 화가 난다고 그 감정을 곧장 쏟아내기보다, 상대가 왜 나를 화나게 했는지 먼저 헤아려보기로 한 것이다. 전학 첫날, 나는 옆자리 친구에게 화장실 위치를 먼저 물어봤다. 아주 사소한 질문이었지만, 내가 먼저 누군가에게 뭔가를 물어본 몇 년 만의 순간이었다.</p>
+      <div class="map">
+        <svg class="map-wide" viewBox="0 0 1200 336" role="group" aria-label="사이트 노선도. 이야기선과 실험선이 대표작에서 만나 제출선으로 이어집니다.">
+          <path class="ln ln--story" pathLength="1" d="M64 80H554L634 160" />
+          <path class="ln ln--exp" pathLength="1" d="M64 240H554L634 160" />
+          <path class="ln ln--out" pathLength="1" d="M678 160H1152" />
 
-      <p>그 뒤로 7년, 그 다짐은 말이 아니라 장면으로 남았다. <time datetime="2026-08-12">2026년 8월 12일</time>, 광안리 해변을 걷던 중 미아를 찾는다는 안내 방송이 나왔는데 마침 방송 속 인상착의와 똑같은 아이가 눈앞에 있었다. 나는 망설임 없이 다가가 이름을 물었고, 안내소까지 함께 걸어가 부모님과 만나게 해드렸다. <time datetime="2026-08-24">8월 24일</time>에는 함께 과제를 하던 동료와 말투 문제로 언성이 높아졌을 때 나는 그날 저녁 바로 먼저 연락해 사과했다. <time datetime="2026-09-08">9월 8일</time>에는 길에서 짐을 든 어르신을 보고 망설임 없이 다가가 짐을 나눠 들었다.</p>
+          <g class="bullet"><circle class="bullet-c" cx="64" cy="80" r="22" fill="#0a8f4d" /><text class="bullet-t" x="64" y="80">1</text></g>
+          <g class="bullet"><circle class="bullet-c" cx="64" cy="240" r="22" fill="#1f5fbf" /><text class="bullet-t" x="64" y="240">2</text></g>
+          <g class="bullet"><circle class="bullet-c" cx="1152" cy="160" r="22" fill="#e06a12" /><text class="bullet-t bullet-t--dark" x="1152" y="160">3</text></g>
+          <text class="line-name line-name--story" x="96" y="58">이야기선</text>
+          <text class="line-name line-name--exp" x="96" y="218">실험선</text>
+          <text class="line-name line-name--out" x="1152" y="122" text-anchor="end">제출선</text>
 
-      <p><time datetime="2026-08-13">8월 13일</time>과 <time datetime="2026-08-31">8월 31일</time>에는 나에게 무례하게 구는 사람과 지각할 뻔한 상황에서도 화를 내지 않고 넘겼다. <time datetime="2026-09-01">9월 1일</time>에는 카페 아르바이트 중 갑자기 손님이 몰려 혼자 매장을 맡게 됐을 때도, 순서를 하나씩 정리하며 침착하게 대응했다. 함께 일하는 동료는 "이런 상황에서 그렇게 흔들리지 않는 거 진짜 대단하다"고 말해주었고, 다른 동료들은 "의견이 갈릴 때도 감정적으로 반응하지 않고 사실 위주로 정리해준다"고 말해주었다.</p>
+          <g class="stop"><a href="#story" aria-label="이야기"><circle cx="192" cy="80" r="14" /><text class="ko" x="192" y="124">이야기</text><text class="en" x="192" y="144">Story</text></a></g>
+          <g class="stop"><a href="#numbers" aria-label="숫자"><circle cx="400" cy="80" r="14" /><text class="ko" x="400" y="124">숫자</text><text class="en" x="400" y="144">Numbers</text></a></g>
+          <g class="stop"><a href="#paper" aria-label="논문"><circle cx="192" cy="240" r="14" /><text class="ko" x="192" y="284">논문</text><text class="en" x="192" y="304">Paper</text></a></g>
+          <g class="stop"><a href="../app/index.html" aria-label="체험 앱"><circle cx="400" cy="240" r="14" /><text class="ko" x="400" y="284">체험 앱</text><text class="en" x="400" y="304">Web app</text></a></g>
 
-      <p><time datetime="2026-08-26">8월 26일</time> 밤에는 한 과제에서 며칠째 막혀 자정이 넘도록 같은 오류를 붙잡고 있었다. 그만두고 싶었지만 나는 도구를 붙잡고 처음부터 다시 설명하며 끝까지 밀어붙였고, 결국 그날 안에 마무리했다. 이 끈기는 그전에도 있었다. 4주간 매일 저녁 시간을 쏟아 백엔드 프로젝트를 끝냈을 때도 마찬가지였다.</p>
+          <g class="stop stop--hub"><a href="#work" aria-label="대표작, 환승역"><rect x="616" y="142" width="80" height="36" rx="18" /><text class="ko" x="656" y="104">대표작</text><text class="en" x="656" y="124">Featured work</text></a></g>
 
-      <p>지금 나는 혼자였던 그때의 나와, 먼저 다가가고 화내지 않고 끝까지 붙잡는 지금의 나 사이에 2019년 그 전학이 있었다는 걸 안다. 화려한 이야기는 아니다. 다만 나는 이제 어려운 순간이 와도 문을 걸어 잠그기보다 먼저 손을 내밀고, 문제를 끝까지 붙잡는 쪽을 선택할 수 있다. 그것만으로도 충분히 멀리 왔다고 생각한다.</p>
+          <g class="stop"><a href="resume.html" aria-label="이력서"><circle cx="784" cy="160" r="14" /><text class="ko" x="784" y="204">이력서</text><text class="en" x="784" y="224">Résumé</text></a></g>
+          <g class="stop"><a href="cover-letter.html" aria-label="자기소개서"><circle cx="920" cy="160" r="14" /><text class="ko" x="920" y="204">자기소개서</text><text class="en" x="920" y="224">Cover letter</text></a></g>
+          <g class="stop"><a href="career.html" aria-label="경력기술서"><circle cx="1056" cy="160" r="14" /><text class="ko" x="1056" y="204">경력기술서</text><text class="en" x="1056" y="224">Career</text></a></g>
+        </svg>
 
-      <p>앞으로도 개발·보안 분야에서, 문제를 끝까지 붙잡고 원인을 찾아내는 사람으로 성장하고 싶다. 먼저 다가가고, 꾸준히 준비하고, 흔들리지 않고 끝까지 해내는 사람 — 그것이 지난 시간 동안 내가 확인한 나다.</p>
+        <svg class="map-tall" viewBox="0 0 360 708" role="group" aria-label="사이트 노선도. 이야기선과 실험선이 대표작에서 만나 제출선으로 이어집니다.">
+          <path class="ln ln--story" pathLength="1" d="M80 64V272L136 328" />
+          <path class="ln ln--exp" pathLength="1" d="M192 64V272L136 328" />
+          <path class="ln ln--out" pathLength="1" d="M136 372V660" />
+
+          <g class="bullet"><circle class="bullet-c" cx="80" cy="64" r="22" fill="#0a8f4d" /><text class="bullet-t" x="80" y="64">1</text></g>
+          <g class="bullet"><circle class="bullet-c" cx="192" cy="64" r="22" fill="#1f5fbf" /><text class="bullet-t" x="192" y="64">2</text></g>
+          <g class="bullet"><circle class="bullet-c" cx="136" cy="660" r="22" fill="#e06a12" /><text class="bullet-t bullet-t--dark" x="136" y="660">3</text></g>
+          <text class="line-name line-name--story" x="80" y="26" text-anchor="middle">이야기선</text>
+          <text class="line-name line-name--exp" x="192" y="26" text-anchor="middle">실험선</text>
+          <text class="line-name line-name--out" x="136" y="704" text-anchor="middle">제출선</text>
+
+          <g class="stop"><a href="#story" aria-label="이야기"><circle cx="80" cy="136" r="14" /><text class="ko" x="108" y="142">이야기</text><text class="en" x="108" y="160">Story</text></a></g>
+          <g class="stop"><a href="#numbers" aria-label="숫자"><circle cx="80" cy="208" r="14" /><text class="ko" x="108" y="214">숫자</text><text class="en" x="108" y="232">Numbers</text></a></g>
+          <g class="stop"><a href="#paper" aria-label="논문"><circle cx="192" cy="136" r="14" /><text class="ko" x="220" y="142">논문</text><text class="en" x="220" y="160">Paper</text></a></g>
+          <g class="stop"><a href="../app/index.html" aria-label="체험 앱"><circle cx="192" cy="208" r="14" /><text class="ko" x="220" y="214">체험 앱</text><text class="en" x="220" y="232">Web app</text></a></g>
+
+          <g class="stop stop--hub"><a href="#work" aria-label="대표작, 환승역"><rect x="118" y="310" width="36" height="80" rx="18" /><text class="ko" x="172" y="346">대표작</text><text class="en" x="172" y="366">Featured work</text></a></g>
+
+          <g class="stop"><a href="resume.html" aria-label="이력서"><circle cx="136" cy="428" r="14" /><text class="ko" x="164" y="434">이력서</text><text class="en" x="164" y="452">Résumé</text></a></g>
+          <g class="stop"><a href="cover-letter.html" aria-label="자기소개서"><circle cx="136" cy="512" r="14" /><text class="ko" x="164" y="518">자기소개서</text><text class="en" x="164" y="536">Cover letter</text></a></g>
+          <g class="stop"><a href="career.html" aria-label="경력기술서"><circle cx="136" cy="596" r="14" /><text class="ko" x="164" y="602">경력기술서</text><text class="en" x="164" y="620">Career</text></a></g>
+        </svg>
+      </div>
     </div>
   </section>
 
-  <section id="numbers" class="numbers numbers-pin">
-    <div class="numbers-sticky">
-      <h2><span class="section-num">02</span>숫자</h2>
+  <section id="story" class="section" aria-labelledby="story-h">
+    <div class="wrap story-grid">
+      <header class="sign">
+        <span class="bullet bullet--story" aria-hidden="true">1</span>
+        <div>
+          <h2 id="story-h">이야기</h2>
+          <span class="sign-en" lang="en">Story</span>
+        </div>
+      </header>
+
+      <!-- 카드1 초안(draft_자기소개_본편.md) 기반. 본인 검토 후 확정 필요:
+           - 5장 "노트 뒷장에 적었다" 실제 사실 여부 확인 -->
+      <div class="story-line">
+        <article class="stop-block">
+          <p class="stop-date">2013 – 2019</p>
+          <h3>혼자였던 시간</h3>
+          <p><time datetime="2013">초등학교 3학년 무렵부터 고등학교 1학년 1학기까지</time>, 제대로 된 친구 없이 혼자 지내는 시간이 길었다. 먼저 말을 걸 줄 몰랐고, 누군가 다가와 주기만을 기다렸다. 기다림은 대개 아무 일 없이 끝났다. 집에 돌아와 부모님이 "오늘 어땠어?" 물으면 나는 늘 "그냥 괜찮아"라고만 답했다. 정말 괜찮은 줄 알았던 게 아니라, 괜찮지 않다는 말을 어떻게 꺼내야 할지 몰랐던 거였다.</p>
+        </article>
+
+        <article class="stop-block">
+          <p class="stop-date">2019 · 2학기</p>
+          <h3>전학</h3>
+          <p>바뀐 건 <time datetime="2019">2019년 2학기</time>, 부산 양정고등학교로 전학을 가면서다. 낯선 학교로 가는 게 두려웠지만, 그보다 더 두려운 건 원래 다니던 교실에 하루라도 더 앉아 있는 것이었다. 나는 사람을 대하는 태도 자체를 바꾸기로 했다. 화가 난다고 그 감정을 곧장 쏟아내기보다, 상대가 왜 나를 화나게 했는지 먼저 헤아려보기로 한 것이다. 전학 첫날, 나는 옆자리 친구에게 화장실 위치를 먼저 물어봤다. 아주 사소한 질문이었지만, 내가 먼저 누군가에게 뭔가를 물어본 몇 년 만의 순간이었다.</p>
+        </article>
+
+        <article class="stop-block">
+          <p class="stop-date">2026.08.12 – 09.08</p>
+          <h3>먼저 다가간 날들</h3>
+          <p>그 뒤로 7년, 그 다짐은 말이 아니라 장면으로 남았다. <time datetime="2026-08-12">2026년 8월 12일</time>, 광안리 해변을 걷던 중 미아를 찾는다는 안내 방송이 나왔는데 마침 방송 속 인상착의와 똑같은 아이가 눈앞에 있었다. 나는 망설임 없이 다가가 이름을 물었고, 안내소까지 함께 걸어가 부모님과 만나게 해드렸다. <time datetime="2026-08-24">8월 24일</time>에는 함께 과제를 하던 동료와 말투 문제로 언성이 높아졌을 때 나는 그날 저녁 바로 먼저 연락해 사과했다. <time datetime="2026-09-08">9월 8일</time>에는 길에서 짐을 든 어르신을 보고 망설임 없이 다가가 짐을 나눠 들었다.</p>
+        </article>
+
+        <article class="stop-block">
+          <p class="stop-date">2026.08.13 – 09.01</p>
+          <h3>화내지 않은 날들</h3>
+          <p><time datetime="2026-08-13">8월 13일</time>과 <time datetime="2026-08-31">8월 31일</time>에는 나에게 무례하게 구는 사람과 지각할 뻔한 상황에서도 화를 내지 않고 넘겼다. <time datetime="2026-09-01">9월 1일</time>에는 카페 아르바이트 중 갑자기 손님이 몰려 혼자 매장을 맡게 됐을 때도, 순서를 하나씩 정리하며 침착하게 대응했다. 함께 일하는 동료는 "이런 상황에서 그렇게 흔들리지 않는 거 진짜 대단하다"고 말해주었고, 다른 동료들은 "의견이 갈릴 때도 감정적으로 반응하지 않고 사실 위주로 정리해준다"고 말해주었다.</p>
+        </article>
+
+        <article class="stop-block">
+          <p class="stop-date">2026.08.26</p>
+          <h3>끝까지 붙잡은 밤</h3>
+          <p><time datetime="2026-08-26">8월 26일</time> 밤에는 한 과제에서 며칠째 막혀 자정이 넘도록 같은 오류를 붙잡고 있었다. 그만두고 싶었지만 나는 도구를 붙잡고 처음부터 다시 설명하며 끝까지 밀어붙였고, 결국 그날 안에 마무리했다. 이 끈기는 그전에도 있었다. 4주간 매일 저녁 시간을 쏟아 백엔드 프로젝트를 끝냈을 때도 마찬가지였다.</p>
+        </article>
+
+        <article class="stop-block">
+          <p class="stop-date">2026</p>
+          <h3>지금</h3>
+          <p>지금 나는 혼자였던 그때의 나와, 먼저 다가가고 화내지 않고 끝까지 붙잡는 지금의 나 사이에 2019년 그 전학이 있었다는 걸 안다. 화려한 이야기는 아니다. 다만 나는 이제 어려운 순간이 와도 문을 걸어 잠그기보다 먼저 손을 내밀고, 문제를 끝까지 붙잡는 쪽을 선택할 수 있다. 그것만으로도 충분히 멀리 왔다고 생각한다.</p>
+        </article>
+
+        <article class="stop-block">
+          <p class="stop-date">다음</p>
+          <h3>앞으로</h3>
+          <p>앞으로도 개발·보안 분야에서, 문제를 끝까지 붙잡고 원인을 찾아내는 사람으로 성장하고 싶다. 먼저 다가가고, 꾸준히 준비하고, 흔들리지 않고 끝까지 해내는 사람 — 그것이 지난 시간 동안 내가 확인한 나다.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="numbers" class="section numbers numbers-pin" aria-labelledby="numbers-h">
+    <div class="numbers-sticky wrap">
+      <header class="sign">
+        <span class="bullet bullet--story" aria-hidden="true">1</span>
+        <div>
+          <h2 id="numbers-h">숫자</h2>
+          <span class="sign-en" lang="en">Numbers</span>
+        </div>
+      </header>
+
       <!-- device/output/site-data.json (2026-09-22 기준 생성)에서 그대로 옮김. 새 기록이 생기면
            device/generate.js를 다시 돌려 이 값들을 갱신하면 됨. 스크롤에 따라 한 항목씩 순서대로 나타남. -->
-      <div class="number-stage" id="number-stage">
+      <div class="board" id="board">
         <div class="number-slide">
-          <div class="value">43일</div>
-          <div class="label">리추얼 기록 기간 (2026-08-11 ~ 09-22, 약 7주)</div>
-          <div class="source">출처: 리추얼 기록</div>
+          <div class="slide-value">43일</div>
+          <div class="slide-text">
+            <p class="slide-label">리추얼 기록 기간 (2026-08-11 ~ 09-22, 약 7주)</p>
+            <p class="slide-source">출처: 리추얼 기록</p>
+          </div>
         </div>
         <div class="number-slide">
-          <div class="value">30건</div>
-          <div class="label">강점이 드러난 일화 기록</div>
-          <div class="source">출처: 리추얼 기록</div>
+          <div class="slide-value">30건</div>
+          <div class="slide-text">
+            <p class="slide-label">강점이 드러난 일화 기록</p>
+            <p class="slide-source">출처: 리추얼 기록</p>
+          </div>
         </div>
         <div class="number-slide">
-          <div class="value">170건</div>
-          <div class="label">서로 주고받은 감사 언급</div>
-          <div class="source">출처: 리추얼 기록</div>
+          <div class="slide-value">170건</div>
+          <div class="slide-text">
+            <p class="slide-label">서로 주고받은 감사 언급</p>
+            <p class="slide-source">출처: 리추얼 기록</p>
+          </div>
         </div>
         <div class="number-slide">
-          <div class="value value--pair"><span>지각 1</span><span class="value-divider">·</span><span>조퇴 1</span></div>
-          <div class="label">43일 동안 — 친구 없이 혼자였던 시절에는 상상하기 어려웠던 꾸준함이다</div>
-          <div class="source">출처: 내 출석 기록 (2026-09-22 기준)</div>
+          <div class="slide-value"><span class="pair"><span>지각 1</span><i>·</i><span>조퇴 1</span></span></div>
+          <div class="slide-text">
+            <p class="slide-label">43일 동안 — 친구 없이 혼자였던 시절에는 상상하기 어려웠던 꾸준함이다</p>
+            <p class="slide-source">출처: 내 출석 기록 (2026-09-22 기준)</p>
+          </div>
         </div>
         <div class="number-slide">
-          <div class="value">5건</div>
-          <div class="label">완료한 과제 (서사문서·논문·소설·SevMerge·flappy-bird)</div>
-          <div class="source">출처: 내 제출 현황</div>
+          <div class="slide-value">5건</div>
+          <div class="slide-text">
+            <p class="slide-label">완료한 과제 (서사문서·논문·소설·SevMerge·flappy-bird)</p>
+            <p class="slide-source">출처: 내 제출 현황</p>
+          </div>
         </div>
         <div class="number-slide">
-          <div class="value">1,451개</div>
-          <div class="label">SevMerge 프로젝트 커밋 수 (약 4주간)</div>
-          <div class="source">출처: 내 제출 현황 · github.com/LeeHakSan/SevMerge</div>
+          <div class="slide-value">1,451개</div>
+          <div class="slide-text">
+            <p class="slide-label">SevMerge 프로젝트 커밋 수 (약 4주간)</p>
+            <p class="slide-source">출처: 내 제출 현황 · github.com/LeeHakSan/SevMerge</p>
+          </div>
         </div>
       </div>
-      <div class="stage-dots" id="stage-dots" aria-hidden="true">
-        <span></span><span></span><span></span><span></span><span></span><span></span>
+
+      <div class="ride" id="ride">
+        <div class="ride-track">
+          <div class="ride-fill"></div>
+          <div class="ride-stops"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="ride-train"></div>
+        </div>
+        <p class="ride-count" id="ride-count" aria-live="polite">정차 1 / 6</p>
       </div>
     </div>
   </section>
 
-  <section id="work" class="work reveal">
-    <h2><span class="section-num">03</span>대표작</h2>
-    <div class="work-grid">
-      <article class="work-card">
-        <h3>이중진자를 통한 무작위성 연구</h3>
-        <p>"무작위가 실제로 존재하는가"라는 질문에서 출발해, 이중진자의 혼돈 운동을 이용한 무작위성을 실험·통계로 검증한 연구.</p>
-        <figure class="work-figure">
-          <img src="assets/thesis/대조군_비교.png" alt="대조군 비교 그래프: 완전 예측 가능한 수열(sequential)도 카이제곱 검정을 100% 통과하는 것을 보여주는 막대그래프" loading="lazy" />
-          <figcaption>예측 가능한 수열도 같은 검정을 100% 통과함 — 검정 방법 자체의 한계를 보여준 대조군 실험 결과</figcaption>
-        </figure>
-        <dl class="work-summary">
-          <div><dt>질문</dt><dd>물리적 혼돈이 암호학적 무작위성을 만드는가</dd></div>
-          <div><dt>방법</dt><dd>이중진자 시뮬레이션 60회(초기 진폭 3조건 × 20회) + 카이제곱 균등성 검정, SHA-256 해시열 대조군 비교</dd></div>
-          <div><dt>결과</dt><dd>가정은 지지되지 않음 — 결과를 그대로 보고하고 검정 방법의 한계까지 함께 밝힘</dd></div>
-        </dl>
-        <ul class="work-links">
-          <li><a href="assets/thesis/01_가설.pdf">01. 가설</a></li>
-          <li><a href="assets/thesis/02_선행연구.pdf">02. 선행연구</a></li>
-          <li><a href="assets/thesis/03_실험설계및실행.pdf">03. 실험설계 및 실행</a></li>
-          <li><a href="assets/thesis/04_결과해석.pdf">04. 결과해석</a></li>
-        </ul>
-      </article>
-      <article class="work-card">
-        <h3>이중진자 무작위성 체험 앱</h3>
-        <p>논문의 핵심 발견 — "카이제곱 균등성 검정은 완전히 예측 가능한 수열도 통과시킨다" — 를 이중진자 시뮬레이션과 함께 직접 체험하는 인터랙티브 앱.</p>
-        <ul class="work-links">
-          <li><a href="../app/index.html">앱 열기 →</a></li>
-        </ul>
-      </article>
+  <section id="work" class="section" aria-labelledby="work-h">
+    <div class="wrap">
+      <header class="sign">
+        <span class="bullet-pair" aria-hidden="true"><span class="bullet bullet--story">1</span><span class="bullet bullet--exp">2</span></span>
+        <div>
+          <h2 id="work-h">대표작</h2>
+          <span class="sign-en" lang="en">Featured work</span>
+        </div>
+      </header>
+
+      <div class="work-grid">
+        <article class="paper" id="paper">
+          <h3>이중진자를 통한 무작위성 연구</h3>
+          <p>"무작위가 실제로 존재하는가"라는 질문에서 출발해, 이중진자의 혼돈 운동을 이용한 무작위성을 실험·통계로 검증한 연구.</p>
+          <figure>
+            <img src="assets/thesis/대조군_비교.png" alt="대조군 비교 그래프: 완전 예측 가능한 수열(sequential)도 카이제곱 검정을 100% 통과하는 것을 보여주는 막대그래프" loading="lazy" />
+            <figcaption>예측 가능한 수열도 같은 검정을 100% 통과함 — 검정 방법 자체의 한계를 보여준 대조군 실험 결과</figcaption>
+          </figure>
+          <dl class="summary">
+            <div><dt>질문</dt><dd>물리적 혼돈이 암호학적 무작위성을 만드는가</dd></div>
+            <div><dt>방법</dt><dd>이중진자 시뮬레이션 60회(초기 진폭 3조건 × 20회) + 카이제곱 균등성 검정, SHA-256 해시열 대조군 비교</dd></div>
+            <div><dt>결과</dt><dd>가정은 지지되지 않음 — 결과를 그대로 보고하고 검정 방법의 한계까지 함께 밝힘</dd></div>
+          </dl>
+          <div class="thesis-stops">
+            <h4>논문 읽는 순서</h4>
+            <ol>
+              <li><a href="assets/thesis/01_가설.pdf">01. 가설</a></li>
+              <li><a href="assets/thesis/02_선행연구.pdf">02. 선행연구</a></li>
+              <li><a href="assets/thesis/03_실험설계및실행.pdf">03. 실험설계 및 실행</a></li>
+              <li><a href="assets/thesis/04_결과해석.pdf">04. 결과해석</a></li>
+            </ol>
+          </div>
+        </article>
+
+        <aside class="appbox" id="app">
+          <h3>이중진자 무작위성 체험 앱</h3>
+          <p><strong>이 앱은</strong> '검정을 통과했으니 무작위'라고 믿기 쉬운 입문자가, 외울 수 있는 수열도 같은 검정을 통과하는 것을 직접 눌러 확인하도록 돕습니다.</p>
+          <p>논문과 같은 조건(이중진자 RK4, 2,000바이트, 카이제곱 검정)을 브라우저에서 다시 돌립니다.</p>
+          <a class="btn-app" href="../app/index.html">앱 열기
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </a>
+          <p class="note">로그인 없이 바로 열립니다.</p>
+        </aside>
+      </div>
     </div>
   </section>
 
-  <section id="resume" class="resume reveal">
-    <h2><span class="section-num">04</span>이력서</h2>
-    <ul class="resume-links">
-      <li><a href="resume.html">이력서</a></li>
-      <li><a href="cover-letter.html">자기소개서</a></li>
-      <li><a href="career.html">경력기술서</a></li>
-    </ul>
-    <p class="contact">연락처: <a href="mailto:san1425865@gmail.com">san1425865@gmail.com</a></p>
+  <section id="resume" class="section" aria-labelledby="resume-h">
+    <div class="wrap">
+      <header class="sign">
+        <span class="bullet bullet--out" aria-hidden="true">3</span>
+        <div>
+          <h2 id="resume-h">이력서</h2>
+          <span class="sign-en" lang="en">Résumé</span>
+        </div>
+      </header>
+
+      <ol class="exits">
+        <li><a href="resume.html"><span class="exit-no">출구 1</span><span class="exit-name">이력서</span><span class="exit-desc">주요 이력 · 보유 역량 · 날짜가 있는 대표 장면</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></a></li>
+        <li><a href="cover-letter.html"><span class="exit-no">출구 2</span><span class="exit-name">자기소개서</span><span class="exit-desc">공백 포함 1,593자</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></a></li>
+        <li><a href="career.html"><span class="exit-no">출구 3</span><span class="exit-name">경력기술서</span><span class="exit-desc">과제·프로젝트 5건 · 상황·행동·결과</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></a></li>
+      </ol>
+      <p class="contact">연락처: <a href="mailto:san1425865@gmail.com">san1425865@gmail.com</a></p>
+    </div>
   </section>
 
 </main>
